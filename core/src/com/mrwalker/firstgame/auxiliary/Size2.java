@@ -25,4 +25,7 @@ public class Size2 {
         this.height = height;
     }
 
+    public String toString(){
+        return "Size width: " + width + ", height: " + height;
+    }
 }

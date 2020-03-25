@@ -9,6 +9,8 @@ public class Position2 {
         this.y = y;
     }
 
+    public Position2(){}
+
     public float getX() {
         return x;
     }
@@ -23,5 +25,9 @@ public class Position2 {
 
     public void setY(float y) {
         this.y = y;
+    }
+
+    public String toString(){
+        return "Position x: " + x + ", y: " + y;
     }
 }
