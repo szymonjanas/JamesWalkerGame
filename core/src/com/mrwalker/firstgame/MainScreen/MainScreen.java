@@ -13,6 +13,7 @@ import com.mrwalker.firstgame.Player;
 import com.mrwalker.firstgame.PlayerController;
 import com.mrwalker.firstgame.auxiliary.Position2;
 import com.mrwalker.firstgame.auxiliary.Size2;
+import com.mrwalker.firstgame.coordinatesConverters.CamToIsoConverter;
 
 public class MainScreen  implements Screen {
 
@@ -44,7 +45,7 @@ public class MainScreen  implements Screen {
         mapManager.loadCurrentMap();
 
         player = new Player(10); // example velocity injected
-        player.setPosition(new Position2(0,0)); //example position injected
+        player.setPosition(mapManager.getSpawnPoints());
 
         playerController = new PlayerController();
     }
@@ -58,7 +59,6 @@ public class MainScreen  implements Screen {
         Camera.getInstance().setPosition(new Position2(
                 player.getPosition().getX(),
                 player.getPosition().getY()));
-
         Camera.getInstance().update();
         mapManager.setView(Camera.getInstance().getCamera());
         mapManager.render();
