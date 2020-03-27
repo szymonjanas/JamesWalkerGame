@@ -1,12 +1,21 @@
-package com.mrwalker.firstgame;
+package com.mrwalker.firstgame.PlayerController;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.math.Vector2;
+import com.mrwalker.firstgame.Player;
 import com.mrwalker.firstgame.auxiliary.Position2;
 
-public class PlayerController {
-    public void controller(Player player){
+public class PlayerDesktopController implements PlayerController {
+
+    private Player player;
+
+    @Override
+    public void setController(Player player) {
+        this.player = player;
+    }
+
+    @Override
+    public void controller(){
         if (Gdx.input.isKeyPressed(Input.Keys.UP)){
             player.setPosition(new Position2(
                     player.getPosition().getX(),
@@ -28,4 +37,6 @@ public class PlayerController {
                     player.getPosition().getY()));
         }
     }
+
+
 }
