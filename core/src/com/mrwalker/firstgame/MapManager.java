@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
+import com.mrwalker.firstgame.Utility.MapUtility;
 import com.mrwalker.firstgame.auxiliary.Position2;
 import com.mrwalker.firstgame.auxiliary.Size2;
 
@@ -15,9 +16,13 @@ public class MapManager {
     private IsometricTiledMapRenderer mapRenderer = null;
     private int cartesianHeight = -1;
     private String mapName = "Load map error!";
+    private MapUtility utility;
 
     public MapManager() {
-        currentMap = new TmxMapLoader().load("maps/basic-map.tmx");
+        utility = new MapUtility();
+        utility.loadAsset("main","map", "maps/basic-map.tmx");
+        utility.finishLoading();
+        currentMap = utility.getMapByName("main");
         cartesianHeight = currentMap.getProperties().get("cartesianHeight", Integer.class);
         mapName = currentMap.getProperties().get("name", String.class);
     }

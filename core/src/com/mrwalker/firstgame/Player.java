@@ -1,9 +1,8 @@
 package com.mrwalker.firstgame;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mrwalker.firstgame.Utility.EntityUtility;
 import com.mrwalker.firstgame.auxiliary.Position2;
 
 public class Player {
@@ -11,10 +10,18 @@ public class Player {
     private Position2 position;
     private Sprite asset;
     private int velocity;
+    private EntityUtility utility;
 
     public Player(int velocity){
         this.velocity = velocity;
-        asset = new Sprite(new Texture("player.jpg"));
+        utility = new EntityUtility();
+        utility.loadAsset("player", "texture", "player.jpg");
+        utility.finishLoading();
+        asset = new Sprite(utility.getTextureByName("player"));
+    }
+
+    public boolean isFinishedLoadingAssets(){
+        return utility.isFinished();
     }
 
     public void setPosition(Position2 position){
