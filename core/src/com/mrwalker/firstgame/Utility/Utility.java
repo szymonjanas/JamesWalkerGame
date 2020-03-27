@@ -31,12 +31,10 @@ public class Utility {
          */
 
         if (filePathResolver.resolve(path).exists()){
-
             if (!assetManager.isLoaded(path)){
                 switch (type){
                     case "map":
                         assetManager.load(path, TiledMap.class);
-                        System.out.println("I AM HERE!");
                         assetNamesMap.put(name, path);
                         break;
                     case "texture":
