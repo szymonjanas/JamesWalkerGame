@@ -12,11 +12,17 @@ public class Player {
     private int velocity;
     private EntityUtility utility;
 
-    public Player(int velocity){
-        this.velocity = velocity;
+    public Player(){
+        this.velocity = 5; // default value
         utility = new EntityUtility();
+    }
+
+    public void loadAssets(){
         utility.loadAsset("player", "texture", "player.jpg");
         utility.finishLoading();
+    }
+
+    public void setAssets(){
         asset = new Sprite(utility.getTextureByName("player"));
     }
 
@@ -49,5 +55,9 @@ public class Player {
 
     public void setVelocity(int velocity) {
         this.velocity = velocity;
+    }
+
+    public void dispose(){
+        utility.dispose();
     }
 }
