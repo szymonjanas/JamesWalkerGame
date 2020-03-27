@@ -14,17 +14,18 @@ public class Camera {
     private static class VIEWPORT{
         static Size2 viewPortSize;
         static Size2 halfViewPortSize;
-        static Size2 worldSize;
     }
 
-    private Camera() {
+    private Camera(Position2 position) {
         camera = new OrthographicCamera();
+        camera.position.x = position.getX();
+        camera.position.y = position.getY();
         setViewPort(camera.viewportWidth, camera.viewportHeight);
     }
 
     public static void initInstance(){
         if (cameraInstance == null){
-            cameraInstance = new Camera();
+            cameraInstance = new Camera(new Position2(0f, 0f)); //default camera coordinates
         }
     }
 
@@ -49,10 +50,6 @@ public class Camera {
         return new Position2(
                 camera.position.x ,
                 camera.position.y);
-    }
-
-    public void setWorldSize(Size2 size){
-        VIEWPORT.worldSize = size;
     }
 
     public void setViewPort(float width, float height){
