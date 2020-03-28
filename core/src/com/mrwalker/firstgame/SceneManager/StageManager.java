@@ -1,8 +1,8 @@
 package com.mrwalker.firstgame.SceneManager;
 
-
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mrwalker.firstgame.Camera;
+import com.mrwalker.firstgame.Converter.Converter;
 import com.mrwalker.firstgame.MapManager;
 import com.mrwalker.firstgame.Player;
 import com.mrwalker.firstgame.PlayerController.PlayerController;
@@ -33,6 +33,7 @@ public class StageManager {
     public void createMap(){
         mapManager = new MapManager();
         mapManager.loadCurrentMap();
+        Converter.setMapIsometricSize(mapManager.getIsometricSize());
     }
 
     public void updatePlayerController(){
@@ -55,11 +56,19 @@ public class StageManager {
     }
 
     public void render(SpriteBatch batch){
+        // TEST
+        System.out.println("Player    x: " + player.getPosition().getX() + ", y: " + player.getPosition().getY());
+        Position2 iso = Converter.cartesianToIsometric(player.getPosition());
+        Position2 cart = Converter.isometricToCartesian(iso);
+        System.out.println("Cartesian x: " + cart.getX() + ", y: " + cart.getY());
+        System.out.println("Isomet    x: " + iso.getX() + ", y: " + iso.getY());
+        System.out.println();
+        // TEST
+
         mapManager.render();
         batch.begin();
         player.render(batch);
         batch.end();
-
     }
 
     public void updateCamera(){
