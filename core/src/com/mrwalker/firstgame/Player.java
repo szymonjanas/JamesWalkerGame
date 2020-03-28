@@ -24,6 +24,7 @@ public class Player {
 
     public void setAssets(){
         asset = new Sprite(utility.getTextureByName("player"));
+        asset.setSize(15, 15);
     }
 
     public boolean isFinishedLoadingAssets(){
@@ -33,7 +34,6 @@ public class Player {
     public void setPosition(Position2 position){
         this.position = position;
         // centering asset
-        asset.setSize(50, 50);
         asset.setPosition(position.getX() - asset.getWidth()/2, position.getY() - asset.getHeight()/2);
     }
 
