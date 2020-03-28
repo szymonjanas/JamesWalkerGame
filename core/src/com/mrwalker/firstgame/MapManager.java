@@ -1,10 +1,9 @@
 package com.mrwalker.firstgame;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
+import com.mrwalker.firstgame.Converter.Converter;
 import com.mrwalker.firstgame.Utility.MapUtility;
 import com.mrwalker.firstgame.auxiliary.Position2;
 import com.mrwalker.firstgame.auxiliary.Size2;
@@ -14,7 +13,7 @@ public class MapManager {
 
     private TiledMap currentMap = null;
     private IsometricTiledMapRenderer mapRenderer = null;
-    private int cartesianHeight = -1;
+    private Size2 mapIsometricSize = new Size2(-1f, -1f);
     private String mapName = "Load map error!";
     private MapUtility utility;
 
@@ -22,30 +21,33 @@ public class MapManager {
         utility = new MapUtility();
         utility.loadAsset("main","map", "maps/basic-map.tmx");
         utility.finishLoading();
+
         currentMap = utility.getMapByName("main");
-        cartesianHeight = currentMap.getProperties().get("cartesianHeight", Integer.class);
+
         mapName = currentMap.getProperties().get("name", String.class);
+
+        mapIsometricSize.setHeight(currentMap.getProperties().get("isometricHeight", Integer.class));
+        mapIsometricSize.setWidth(currentMap.getProperties().get("isometricWidth", Integer.class));
+    }
+
+    public Size2 getIsometricSize(){
+        return mapIsometricSize;
     }
 
     public Position2 getSpawnPoints(){
-        return new Position2(
-            currentMap.getLayers().get("Spawn")
-                    .getObjects().get("spawn")
-                    .getProperties()
-                    .get("x", Float.class),
-            tiledToCartesian(
-                    currentMap.getLayers().get("Spawn")
+        return Converter.isometricToCartesian (
+            new Position2(
+                currentMap.getLayers().get("Spawn")
                         .getObjects().get("spawn")
                         .getProperties()
-                        .get("y", Float.class))
-        );
-    }
+                        .get("x", Float.class),
 
-    private float tiledToCartesian(Float isometric){
-        if (cartesianHeight == -1){
-            Gdx.app.error(TAG, "cartesianHeight not found in map" + mapName);
-        }
-        return isometric - cartesianHeight/2f;
+                currentMap.getLayers().get("Spawn")
+                    .getObjects().get("spawn")
+                    .getProperties()
+                    .get("y", Float.class)
+                    )
+        );
     }
 
     public Size2 getMapSize(){
