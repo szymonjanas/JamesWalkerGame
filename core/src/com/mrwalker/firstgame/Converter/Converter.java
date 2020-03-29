@@ -36,3 +36,4 @@ public class Converter {
         return new Position2(point.x, point.y);
     }
 }
+
