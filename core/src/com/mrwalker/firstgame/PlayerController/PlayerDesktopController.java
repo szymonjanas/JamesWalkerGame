@@ -3,9 +3,7 @@ package com.mrwalker.firstgame.PlayerController;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
-import com.mrwalker.firstgame.Player;
-
-import static com.badlogic.gdx.Input.Keys.*;
+import com.mrwalker.firstgame.Entity.Player;
 
 public class PlayerDesktopController implements InputProcessor, PlayerController {
 
