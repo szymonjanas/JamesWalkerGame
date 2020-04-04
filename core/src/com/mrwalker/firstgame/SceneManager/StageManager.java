@@ -12,7 +12,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mrwalker.firstgame.Camera;
 import com.mrwalker.firstgame.Converter.Converter;
 import com.mrwalker.firstgame.Map.MapManager;
-import com.mrwalker.firstgame.Player;
+import com.mrwalker.firstgame.Entity.Player;
 import com.mrwalker.firstgame.PlayerController.PlayerController;
 import com.mrwalker.firstgame.PlayerController.PlayerDesktopController;
 import com.mrwalker.firstgame.auxiliary.Position2;
@@ -63,14 +63,12 @@ public class StageManager {
         player = new Player(world);
         player.loadAssets();
         player.setAssets();
-//        player.setPosition(mapManager.getSpawnPoints());
-        player.setPosition(new Position2(0,0));
+        player.setPosition(mapManager.getPoint("spawn", "Spawn"));
         playerController.setController(player);
     }
 
     public void createMap(){
         mapManager = new MapManager(world);
-        mapManager.loadCurrentMap();
         Converter.setMapIsometricSize(mapManager.getIsometricSize());
     }
 
@@ -90,15 +88,6 @@ public class StageManager {
     }
 
     public void render(SpriteBatch batch){
-        // TEST
-//        System.out.println("Player    x: " + player.getPosition().getX() + ", y: " + player.getPosition().getY());
-//        Position2 iso = Converter.cartesianToIsometric(player.getPosition());
-//        Position2 cart = Converter.isometricToCartesian(iso);
-//        System.out.println("Cartesian x: " + cart.getX() + ", y: " + cart.getY());
-//        System.out.println("Isomet    x: " + iso.getX() + ", y: " + iso.getY());
-//        System.out.println();
-        // TEST
-
         world.step(1f/60f, 6, 2);
 
         matrix4 = batch.getProjectionMatrix().cpy();
