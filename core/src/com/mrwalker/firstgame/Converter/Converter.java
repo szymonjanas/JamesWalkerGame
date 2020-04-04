@@ -16,6 +16,8 @@ public class Converter {
         sizeIsometricMap = isometricSize;
     }
 
+
+
     public static Position2 cartesianToIsometric(Position2 position){
         Vector2 point = new Vector2(position.getX(), position.getY());
         point.x /= tileWidth;
@@ -29,11 +31,15 @@ public class Converter {
         }
     }
 
-    public static Position2 isometricToCartesian(Position2 position){
-        Vector2 point = new Vector2(position.getX(), position.getY());
-        point.x = position.getY() + position.getX();
-        point.y = (position.getY() - position.getX()) / 2f + 16;
+    public static Position2 isometricToCartesian(float x, float y){
+        Vector2 point = new Vector2(x, y);
+        point.x = y + x;
+        point.y = (y - x) / 2f + 16;
         return new Position2(point.x, point.y);
+    }
+
+    public static Position2 isometricToCartesian(Position2 position){
+        return isometricToCartesian(position.getX(), position.getY());
     }
 }
 
