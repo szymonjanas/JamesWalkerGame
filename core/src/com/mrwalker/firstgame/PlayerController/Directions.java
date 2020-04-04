@@ -52,7 +52,6 @@ public class Directions {
     }
 
     public static Vector2 getVelocity(){
-        System.out.println(velocity.toString());
         return velocity;
     }
 
