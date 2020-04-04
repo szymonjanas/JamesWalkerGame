@@ -34,6 +34,19 @@ public class Position2 {
         this.y = y;
     }
 
+    public void set(float x, float y){
+        this.x = x;
+        this.y = y;
+    }
+
+    public void set(Vector2 position){
+        set(position.x, position.y);
+    }
+
+    public void set(Position2 position){
+        set(position.getX(), position.getY());
+    }
+
     public String toString(){
         return "Position x: " + x + ", y: " + y;
     }
