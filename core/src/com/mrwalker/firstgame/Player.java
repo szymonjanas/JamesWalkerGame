@@ -43,6 +43,10 @@ public class Player extends Entity {
     }
 
     public void movePlayer(Vector2 move, float rotation){
+        if (move.x == 0 && move.y == 0){
+            moveStop();
+            return;
+        }
         asset.setRotation(rotation);
         body.applyLinearImpulse(move, this.position.toVector2(), true);
 //        body.applyForceToCenter(move, true);
