@@ -1,9 +1,17 @@
 package com.mrwalker.firstgame.SceneManager;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.gdx.physics.box2d.World;
 import com.mrwalker.firstgame.Camera;
 import com.mrwalker.firstgame.Converter.Converter;
-import com.mrwalker.firstgame.MapManager;
+import com.mrwalker.firstgame.Map.MapManager;
 import com.mrwalker.firstgame.Player;
 import com.mrwalker.firstgame.PlayerController.PlayerController;
 import com.mrwalker.firstgame.PlayerController.PlayerDesktopController;
@@ -11,33 +19,59 @@ import com.mrwalker.firstgame.auxiliary.Position2;
 
 public class StageManager {
 
+    private World world;
+
     private Player player;
     private MapManager mapManager;
     private Camera cameraInstance;
     private PlayerController playerController;
 
+    private Box2DDebugRenderer debugRenderer;
+    private Matrix4 matrix4;
+
     public StageManager() {
         Camera.initInstance();
         cameraInstance = Camera.getInstance();
         playerController = new PlayerDesktopController();
+        world = new World(new Vector2(0,0), true);
+
+        world.setContactListener(new ContactListener() {
+            @Override
+            public void beginContact(Contact contact) {
+                System.out.println("CONTACT");
+            }
+
+            @Override
+            public void endContact(Contact contact) {
+
+            }
+
+            @Override
+            public void preSolve(Contact contact, Manifold oldManifold) {
+
+            }
+
+            @Override
+            public void postSolve(Contact contact, ContactImpulse impulse) {
+
+            }
+        });
+        debugRenderer = new Box2DDebugRenderer();
     }
 
     public void createPlayer(){
-        player = new Player();
+        player = new Player(world);
         player.loadAssets();
         player.setAssets();
-        player.setPosition(mapManager.getSpawnPoints());
+//        player.setPosition(mapManager.getSpawnPoints());
+        player.setPosition(new Position2(0,0));
         playerController.setController(player);
     }
 
     public void createMap(){
-        mapManager = new MapManager();
+        mapManager = new MapManager(world);
         mapManager.loadCurrentMap();
         Converter.setMapIsometricSize(mapManager.getIsometricSize());
-    }
-
-    public void updatePlayerController(){
-        playerController.controller();
     }
 
     public void createCameraDependency(SpriteBatch batch){
@@ -57,18 +91,23 @@ public class StageManager {
 
     public void render(SpriteBatch batch){
         // TEST
-        System.out.println("Player    x: " + player.getPosition().getX() + ", y: " + player.getPosition().getY());
-        Position2 iso = Converter.cartesianToIsometric(player.getPosition());
-        Position2 cart = Converter.isometricToCartesian(iso);
-        System.out.println("Cartesian x: " + cart.getX() + ", y: " + cart.getY());
-        System.out.println("Isomet    x: " + iso.getX() + ", y: " + iso.getY());
-        System.out.println();
+//        System.out.println("Player    x: " + player.getPosition().getX() + ", y: " + player.getPosition().getY());
+//        Position2 iso = Converter.cartesianToIsometric(player.getPosition());
+//        Position2 cart = Converter.isometricToCartesian(iso);
+//        System.out.println("Cartesian x: " + cart.getX() + ", y: " + cart.getY());
+//        System.out.println("Isomet    x: " + iso.getX() + ", y: " + iso.getY());
+//        System.out.println();
         // TEST
 
+        world.step(1f/60f, 6, 2);
+
+        matrix4 = batch.getProjectionMatrix().cpy();
         mapManager.render();
         batch.begin();
         player.render(batch);
         batch.end();
+        debugRenderer.render(world, matrix4);
+        player.update();
     }
 
     public void updateCamera(){
