@@ -5,8 +5,8 @@ public class Size2 {
         private float height;
 
     public Size2(float width, float height) {
-        this.width = width;
-        this.height = height;
+        setWidth(width);
+        setHeight(height);
     }
 
     public float getWidth() {
@@ -26,6 +26,6 @@ public class Size2 {
     }
 
     public String toString(){
-        return "Size width: " + width + ", height: " + height;
+        return "( width: " + width + ", height: " + height + " )";
     }
 }
