@@ -6,9 +6,17 @@ public class Position2 {
     private float x;
     private float y;
 
+    private float rotation;
+
     public Position2(float x, float y) {
         this.x = x;
         this.y = y;
+    }
+
+    public Position2(float x, float y, float rotation) {
+        this.x = x;
+        this.y = y;
+        this.rotation = rotation;
     }
 
     public Position2(Vector2 position){
@@ -17,6 +25,14 @@ public class Position2 {
     }
 
     public Position2(){}
+
+    public float getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(float rotation) {
+        this.rotation = rotation;
+    }
 
     public float getX() {
         return x;
@@ -39,8 +55,18 @@ public class Position2 {
         this.y = y;
     }
 
+    public void set(float x, float y, float rotation){
+        set(x, y);
+        setRotation(rotation);
+    }
+
     public void set(Vector2 position){
         set(position.x, position.y);
+    }
+
+    public void set(Vector2 position, float rotation){
+        set(position.x, position.y);
+        setRotation(rotation);
     }
 
     public void set(Position2 position){

@@ -21,13 +21,15 @@ public class Player extends Entity {
     }
 
     public void loadAssets(){
-        utility.loadAsset("player", "texture", "player.jpg");
+//        utility.loadAsset("player", "texture", "player.jpg");
+        utility.loadAsset("player", "texture", "Player/player.png");
         utility.finishLoading();
     }
 
     public void setAssets(){
-        asset = new Sprite(utility.getTextureByName("player"));
-        asset.setScale(0.1f, 0.1f);
+//        asset = new Sprite(utility.getTextureByName("player"));
+//        asset.setScale(0.1f, 0.1f);
+        loadAnimations(utility);
     }
 
     public boolean isFinishedLoadingAssets(){
@@ -37,9 +39,9 @@ public class Player extends Entity {
     public void setPosition(Position2 position){
         this.position = position;
         body.setTransform(position.toVector2(), 0);
-        asset.setPosition(
-                position.getX() - asset.getWidth()/2f,
-                position.getY() - asset.getHeight()/2f);
+//        asset.setPosition(
+//                position.getX() - asset.getWidth()/2f,
+//                position.getY() - asset.getHeight()/2f);
     }
 
     public void movePlayer(Vector2 move, float rotation){
@@ -47,19 +49,12 @@ public class Player extends Entity {
             clearVelocity();
             return;
         }
-        asset.setRotation(rotation);
         body.applyLinearImpulse(move, this.position.toVector2(), true);
-        this.position.set(body.getPosition());
-        asset.setPosition(
-                body.getPosition().x - asset.getWidth()/2f,
-                body.getPosition().y - asset.getHeight()/2f);
+        this.position.set(body.getPosition(), rotation);
     }
 
     public void update(){
         this.position.set(body.getPosition());
-        asset.setPosition(
-                body.getPosition().x - asset.getWidth()/2f,
-                body.getPosition().y - asset.getHeight()/2f);
     }
 
     public void clearVelocity(){
@@ -67,7 +62,7 @@ public class Player extends Entity {
     }
 
     public void render(SpriteBatch batch){
-        asset.draw(batch);
+        renderAnimation(batch, this.position);
     }
 
     public Position2 getPosition(){
