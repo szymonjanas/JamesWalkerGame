@@ -27,9 +27,7 @@ public class Entity {
     protected FixtureDef fixtureDef;
     protected Fixture fixture;
 
-    private ArrayList<Animation<TextureRegion>> walkAnimations;
-    private Texture walkTexture;
-    private float stateTime = 0f;
+
 
     protected Entity(World world){
         this.world = world;
@@ -54,21 +52,5 @@ public class Entity {
 
     }
 
-    protected void loadAnimations(EntityUtility utility){
-        walkAnimations = new ArrayList<>();
-        walkTexture = utility.getTextureByName("player");
-        TextureRegion[][] temp = TextureRegion.split(walkTexture,
-                64, 64);
-        ArrayList<TextureRegion> walkFrames = new ArrayList<>();
-        for (TextureRegion[] regionTable : temp){
-            walkAnimations.add(new Animation<TextureRegion>(1f/10f,
-                    Arrays.copyOfRange(regionTable, 0, 9)));
-        }
-    }
 
-    protected void renderAnimation(SpriteBatch batch, Position2 position){
-        stateTime += Gdx.graphics.getDeltaTime();
-        TextureRegion currentFrame = walkAnimations.get(10).getKeyFrame(stateTime, true);
-        batch.draw(currentFrame, position.getX()-32, position.getY()-8);
-    }
 }
