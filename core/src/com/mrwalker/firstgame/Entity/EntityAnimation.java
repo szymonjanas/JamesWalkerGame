@@ -13,14 +13,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.mrwalker.firstgame.Entity.EntityAnimation.Movement.stay_DOWN;
-import static com.mrwalker.firstgame.Entity.EntityAnimation.Movement.stay_LEFT;
-import static com.mrwalker.firstgame.Entity.EntityAnimation.Movement.stay_RIGHT;
-import static com.mrwalker.firstgame.Entity.EntityAnimation.Movement.stay_UP;
-import static com.mrwalker.firstgame.Entity.EntityAnimation.Movement.walk_DOWN;
-import static com.mrwalker.firstgame.Entity.EntityAnimation.Movement.walk_LEFT;
-import static com.mrwalker.firstgame.Entity.EntityAnimation.Movement.walk_RIGHT;
-import static com.mrwalker.firstgame.Entity.EntityAnimation.Movement.walk_UP;
+import static com.mrwalker.firstgame.Entity.EntityAnimation.Movement.*;
 
 
 public class EntityAnimation {
@@ -66,7 +59,6 @@ public class EntityAnimation {
     }
 
     public void move(float rotation, Vector2 force){
-        System.out.println(force.toString());
         if (force.x == 0 && force.y == 0){
             if (rotation == 0){
                 movementType = stay_UP;

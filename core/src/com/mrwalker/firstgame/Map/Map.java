@@ -26,7 +26,6 @@ public class Map {
     private Size2 mapSize;
     private String mapName = "Load map error!";
 
-
     //lake body
     private BodyDef bodyDef;
     private Body body;

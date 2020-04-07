@@ -17,8 +17,6 @@ public class Entity {
     protected FixtureDef fixtureDef;
     protected Fixture fixture;
 
-
-
     protected Entity(World world){
         this.world = world;
 
@@ -41,6 +39,4 @@ public class Entity {
         body.setFixedRotation(true);
 
     }
-
-
 }

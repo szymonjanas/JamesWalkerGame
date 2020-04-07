@@ -107,5 +107,4 @@ public class StageManager {
         mapManager.dispose();
         player.dispose();
     }
-
 }
