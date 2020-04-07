@@ -21,6 +21,11 @@ public class Position2 {
         set(position);
     }
 
+    public Position2(Vector2 position, float rotation){
+        set(position);
+        setRotation(rotation);
+    }
+
     public Position2(){}
 
     public float getRotation() {
