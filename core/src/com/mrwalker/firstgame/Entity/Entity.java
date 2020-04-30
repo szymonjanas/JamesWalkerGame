@@ -1,5 +1,6 @@
 package com.mrwalker.firstgame.Entity;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mrwalker.firstgame.Utility.Utility;
@@ -12,8 +13,11 @@ public class Entity {
     private EntityState entityState;
     private EntityAnimation animation;
 
-    public Entity() {
-        entityState = new EntityState();
+    private EntityIdentification entityIdentification;
+
+    public Entity(EntityIdentification entityIdentification) {
+        this.entityIdentification = entityIdentification;
+        entityState = new EntityState(this.entityIdentification);
         entityState.rotation = 180;
         entityState.movement = EntityState.Movements.Stance;
         entityState.position = new Position2(0f,0f);
@@ -39,6 +43,7 @@ public class Entity {
 
     public void setPosition(Position2 position){
         entityState.position = position;
+        this.body.upgrade();
     }
 
     public void setRotation(int rotation){
@@ -48,6 +53,14 @@ public class Entity {
     public void render(SpriteBatch batch){
         this.body.update();
         this.animation.renderAnimation(batch);
+    }
+
+    public EntityIdentification getEntityIdentification(){
+        return entityIdentification;
+    }
+
+    public boolean checkIdentification(EntityIdentification entityIdentification){
+        return this.entityIdentification.equals(entityIdentification);
     }
 
     public void dispose(){

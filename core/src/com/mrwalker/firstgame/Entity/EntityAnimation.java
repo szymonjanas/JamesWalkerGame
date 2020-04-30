@@ -29,10 +29,8 @@ public class EntityAnimation {
 
     private EntityState entityState;
 
-    private float frameDuration = 1f/10f;
-
     private int correctionFrameX = -64;
-    private int correctionFrameY = -32;
+    private int correctionFrameY = -42;
 
     private Size2 frameSize = new Size2(128, 128);
 
@@ -60,11 +58,11 @@ public class EntityAnimation {
     public void loadAnimations(){
         Texture body = Utility.getTexture("entity/hero/leather_armor.png");
         Texture head = Utility.getTexture("entity/hero/male_head2.png");
-        loadAnimations(body);
-        loadAnimations(head);
+        addAnimations(body);
+        addAnimations(head);
     }
 
-    private void loadAnimations(Texture texture){
+    private void addAnimations(Texture texture){
         Map<Directions, Map<Movements, Animation<TextureRegion>>> animations_map = new HashMap<>();
         TextureRegion[][] temp = TextureRegion.split(texture,
                 (int) frameSize.getWidth(), (int) frameSize.getHeight());
@@ -73,7 +71,8 @@ public class EntityAnimation {
             Map<Movements, Animation<TextureRegion>> movingAnimations = new HashMap<>();
             for (int type = 0; type < movementTypes.length; ++type){
                 movingAnimations.put(movementTypes[type],
-                        new Animation<TextureRegion>(frameDuration,
+                        new Animation<TextureRegion>(
+                                entityState.frameDuration,
                                 Arrays.copyOfRange(temp[dir], framesFrom[type], framesTo[type])));
             }
             animations_map.put(directionsTypes[dir], movingAnimations);
