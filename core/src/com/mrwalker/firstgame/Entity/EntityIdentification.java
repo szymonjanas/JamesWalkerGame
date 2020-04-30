@@ -45,10 +45,6 @@ public class EntityIdentification {
         return "[" + this.ID + ", " + this.name + ", " + this.type.toString() + "]";
     }
 
-    public static Builder builder(){
-        return new Builder();
-    }
-
     public static final class Builder{
         private int ID;
         private ObjectsTypes type = null;
