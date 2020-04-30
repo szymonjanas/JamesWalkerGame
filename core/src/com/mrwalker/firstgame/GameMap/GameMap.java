@@ -35,12 +35,6 @@ public class GameMap {
 
 
     private ArrayList<MapBody> mapBodies = new ArrayList<>();
-    //lake body
-    private BodyDef bodyDef;
-    private Body body;
-    private FixtureDef fixtureDef;
-    private Fixture fixture;
-    private PolygonShape shape;
 
     private MapObjects spawns;
 
@@ -85,7 +79,6 @@ public class GameMap {
             mapBodies.add(new MapBody(vertices));
         }
     }
-
 
     public Position2 getSpawnPoint(String name){
         return Converter.isometricToCartesian (
