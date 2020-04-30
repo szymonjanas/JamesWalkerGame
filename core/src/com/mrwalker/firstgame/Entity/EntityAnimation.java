@@ -5,86 +5,106 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
-import com.mrwalker.firstgame.Utility.EntityUtility;
+
+import com.mrwalker.firstgame.Utility.Utility;
 import com.mrwalker.firstgame.auxiliary.Position2;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.mrwalker.firstgame.Entity.EntityAnimation.Movement.*;
-
+import static com.mrwalker.firstgame.Entity.EntityState.Directions.*;
+import static com.mrwalker.firstgame.Entity.EntityState.Movements.*;
+import com.mrwalker.firstgame.Entity.EntityState.Directions;
+import com.mrwalker.firstgame.Entity.EntityState.Movements;
+import com.mrwalker.firstgame.auxiliary.Size2;
 
 public class EntityAnimation {
+    private static final String TAG = EntityAnimation.class.getSimpleName();
 
-    private Map<Movement, Animation<TextureRegion>> walkAnimations;
+    private ArrayList< Map<Directions, Map<Movements, Animation<TextureRegion>>>> animations = new ArrayList<>();
+
     private float stateTime = 0f;
 
-    private Movement movementType = stay_DOWN;
+    private EntityState entityState;
 
-    public EntityAnimation() {
+    private float frameDuration = 1f/10f;
+
+    private int correctionFrameX = -64;
+    private int correctionFrameY = -32;
+
+    private Size2 frameSize = new Size2(128, 128);
+
+    public EntityAnimation(EntityState entityState) {
+        this.entityState = entityState;
+        loadAnimations();
     }
 
-    public enum Movement {
-        walk_UP, stay_UP,
-        walk_RIGHT, stay_RIGHT,
-        walk_DOWN, stay_DOWN,
-        walk_LEFT, stay_LEFT
+    private final int[] framesFrom = {
+            0, 4, 12, 17, 19, 25, 29
+    };
+
+    private final int[] framesTo = {
+            3, 11, 16, 18, 24, 28, 32
+    };
+
+    private final Movements[] movementTypes = {
+            Stance, Running, MeleeSwing, Block, HitAndDie, CastSpell, ShootBow
+    };
+
+    private final Directions[] directionsTypes = {
+            Left, UpLeft, Up, UpRight, Right, DownRight, Down, DownLeft
+    };
+
+    public void loadAnimations(){
+        Texture body = Utility.getTexture("entity/hero/leather_armor.png");
+        Texture head = Utility.getTexture("entity/hero/male_head2.png");
+        loadAnimations(body);
+        loadAnimations(head);
     }
 
-    public void loadAnimations(EntityUtility utility){
-        walkAnimations = new HashMap<>();
-        Texture walkTexture = utility.getTextureByName("player");
-        TextureRegion[][] temp = TextureRegion.split(walkTexture,
-                64, 64);
+    private void loadAnimations(Texture texture){
+        Map<Directions, Map<Movements, Animation<TextureRegion>>> animations_map = new HashMap<>();
+        TextureRegion[][] temp = TextureRegion.split(texture,
+                (int) frameSize.getWidth(), (int) frameSize.getHeight());
 
-        walkAnimations.put(walk_UP, new Animation<TextureRegion>(1f/10f,
-                    Arrays.copyOfRange(temp[8], 0, 9)));
-        walkAnimations.put(walk_LEFT, new Animation<TextureRegion>(1f/10f,
-                Arrays.copyOfRange(temp[9], 0, 9)));
-        walkAnimations.put(walk_DOWN, new Animation<TextureRegion>(1f/10f,
-                Arrays.copyOfRange(temp[10], 0, 9)));
-        walkAnimations.put(walk_RIGHT, new Animation<TextureRegion>(1f/10f,
-                Arrays.copyOfRange(temp[11], 0, 9)));
-
-        walkAnimations.put(stay_UP, new Animation<TextureRegion>(1f/10f,
-                Arrays.copyOfRange(temp[8], 0, 1)));
-        walkAnimations.put(stay_LEFT, new Animation<TextureRegion>(1f/10f,
-                Arrays.copyOfRange(temp[9], 0, 1)));
-        walkAnimations.put(stay_DOWN, new Animation<TextureRegion>(1f/10f,
-                Arrays.copyOfRange(temp[10], 0, 1)));
-        walkAnimations.put(stay_RIGHT, new Animation<TextureRegion>(1f/10f,
-                Arrays.copyOfRange(temp[11], 0, 1)));
-    }
-
-    public void move(float rotation, Vector2 force){
-        if (force.x == 0 && force.y == 0){
-            if (rotation == 0){
-                movementType = stay_UP;
-            } else if (rotation == 90) {
-                movementType = stay_RIGHT;
-            } else if (rotation == 180) {
-                movementType = stay_DOWN;
-            } else if (rotation == 270) {
-                movementType = stay_LEFT;
+        for (int dir = 0; dir < directionsTypes.length; ++dir){
+            Map<Movements, Animation<TextureRegion>> movingAnimations = new HashMap<>();
+            for (int type = 0; type < movementTypes.length; ++type){
+                movingAnimations.put(movementTypes[type],
+                        new Animation<TextureRegion>(frameDuration,
+                                Arrays.copyOfRange(temp[dir], framesFrom[type], framesTo[type])));
             }
-        } else {
-            if (rotation == 0){
-                movementType = walk_UP;
-            } else if (rotation == 90) {
-                movementType = walk_RIGHT;
-            } else if (rotation == 180) {
-                movementType = walk_DOWN;
-            } else if (rotation == 270) {
-                movementType = walk_LEFT;
-            }
+            animations_map.put(directionsTypes[dir], movingAnimations);
         }
+        animations.add(animations_map);
     }
 
-    public void renderAnimation(SpriteBatch batch, Position2 position){
+
+    public void update(){
+        Directions direction = null;
+        switch (entityState.rotation){
+            case 0: direction = Up; break;
+            case 45: direction = UpRight; break;
+            case 90: direction = Right; break;
+            case 135: direction = DownRight; break;
+            case 180: direction = Down; break;
+            case 225: direction = DownLeft; break;
+            case 270: direction = Left; break;
+            case 315: direction = UpLeft; break;
+            default:
+                Gdx.app.error(TAG, "Wrong rotation given: " + entityState.rotation);
+        }
+        entityState.direction = direction;
+    }
+
+    public void renderAnimation(SpriteBatch batch){
+        update();
         stateTime += Gdx.graphics.getDeltaTime();
-        TextureRegion currentFrame = walkAnimations.get(movementType).getKeyFrame(stateTime, true);
-        batch.draw(currentFrame, position.getX()-32, position.getY()-8);
+        for ( Map<Directions, Map<Movements, Animation<TextureRegion>>> object : animations){
+            batch.draw(object.get(entityState.direction).get(entityState.movement).getKeyFrame(stateTime, true),
+                    entityState.position.getX()+correctionFrameX, entityState.position.getY()+correctionFrameY);
+        }
     }
 }
