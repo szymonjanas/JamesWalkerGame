@@ -12,34 +12,28 @@ import java.util.HashMap;
 public class Utility {
     protected static final String TAG = Utility.class.getSimpleName();
 
-    protected AssetManager assetManager;
-    protected InternalFileHandleResolver filePathResolver;
-    protected HashMap<String, String> assetNamesMap; //<name, path>
+    private static final AssetManager assetManager = new AssetManager();
+    private static final InternalFileHandleResolver filePathResolver = new InternalFileHandleResolver();
 
-    public Utility(){
-        assetManager = new AssetManager();
+
+    public static void init(){
         assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
-        filePathResolver = new InternalFileHandleResolver();
-        assetNamesMap = new HashMap<>();
     }
 
-    public void loadAsset(String name, String type, String path){
+    public static void loadAsset(String type, String path){
         /*
             assets name types:
-            - map
+            - tiledmap
             - texture
          */
-
         if (filePathResolver.resolve(path).exists()){
             if (!assetManager.isLoaded(path)){
                 switch (type){
-                    case "map":
+                    case "tiledmap":
                         assetManager.load(path, TiledMap.class);
-                        assetNamesMap.put(name, path);
                         break;
                     case "texture":
                         assetManager.load(path, Texture.class);
-                        assetNamesMap.put(name, path);
                         break;
                     default:
                         Gdx.app.error(TAG,
@@ -53,23 +47,45 @@ public class Utility {
         }
     }
 
-    public void unloadAllAssets(){ // TO DO player always stay loaded
+    public static TiledMap getTiledMap(String path){
+        if (assetManager.isLoaded(path)){
+            return assetManager.get(path);
+        } else {
+            Gdx.app.error(TAG, "File not loaded: " + path);
+        }
+        return null;
+    }
+
+    public static Texture getTexture(String path){
+        if (assetManager.isLoaded(path)){
+            return assetManager.get(path);
+        } else {
+            Gdx.app.error(TAG, "File not loaded: " + path);
+        }
+        return null;
+    }
+
+    public static void unloadAllAssets(){ // TO DO player always stay loaded
         assetManager.clear();
     }
 
-    public boolean isFinished(){
+    public static float getLoadingProgress(){
+        return assetManager.getProgress();
+    }
+
+    public static boolean isFinished(){
         return assetManager.isFinished();
     }
 
-    public void finishLoading(){
+    public static void finishLoading(){
         assetManager.finishLoading();
     }
 
-    public void update(){
+    public static void update(){
         assetManager.update();
     }
 
-    public void dispose(){
+    public static void dispose(){
         assetManager.dispose();
     }
 }
