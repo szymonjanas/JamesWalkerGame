@@ -18,10 +18,15 @@ public class EntityBody {
     private CircleShape circleShape;
     private FixtureDef fixtureDef;
     private Fixture fixture;
+    private Vector2 bodyVelocity = new Vector2(0f, 0f);
 
     public EntityBody(EntityState entityState){
         this.entityState = entityState;
-        initialization(new Position2(0f, 0f), 10f, 1f);
+        float weightInKg = 80;
+        float metresSquared = 3.14f * (0.5f * 0.5f);
+        float density = weightInKg / metresSquared;
+        initialization(new Position2(0f, 0f), 7f, density);
+        this.body.setUserData(entityState.entityData);
     }
 
     public EntityBody(Position2 position, float radius, float density){
@@ -40,6 +45,8 @@ public class EntityBody {
         fixtureDef = new FixtureDef();
         fixtureDef.shape = circleShape;
 
+        fixtureDef.restitution = 0f;
+        fixtureDef.friction = 30f;
         fixtureDef.density = density;
 
         fixture = body.createFixture(fixtureDef);
@@ -49,7 +56,8 @@ public class EntityBody {
     }
 
     public void move(Vector2 force){
-        body.applyForceToCenter(force, true);
+        body.setLinearVelocity(force);
+        bodyVelocity = body.getLinearVelocity();
         update();
     }
 
@@ -59,14 +67,12 @@ public class EntityBody {
 
     public void update(){
         entityState.position = new Position2(body.getPosition());
+        if (!body.getLinearVelocity().equals(bodyVelocity)){
+            clearVelocity();
+        }
     }
 
     public void upgrade(){
         body.setTransform(entityState.position.toVector2(), entityState.rotation);
     }
-
-    public Position2 getPosition(){
-        return new Position2(body.getPosition());
-    }
-
 }
