@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mrwalker.firstgame.Camera;
 import com.mrwalker.firstgame.GameMain;
 import com.mrwalker.firstgame.SceneManager.StageManager;
+import com.mrwalker.firstgame.Utility.Utility;
+import com.mrwalker.firstgame.WorldManager;
 
 public class MainScreen  implements Screen {
 
@@ -23,9 +25,11 @@ public class MainScreen  implements Screen {
 
     @Override
     public void show() {
-        Camera.initInstance();
-        Camera.getInstance().getCamera().position.x = 0f;
-        Camera.getInstance().getCamera().position.y = 0f;
+        Utility.init();
+        WorldManager.init();
+        Camera.init();
+        Camera.getCamera().position.x = 0f;
+        Camera.getCamera().position.y = 0f;
         batch = new SpriteBatch();
 
         stage = new StageManager();
@@ -45,7 +49,7 @@ public class MainScreen  implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        Camera.getInstance().setViewPort(width, height);
+        Camera.setViewPort(width, height);
     }
 
     @Override

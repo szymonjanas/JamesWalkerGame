@@ -2,40 +2,41 @@ package com.mrwalker.firstgame.SceneManager;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
-import com.badlogic.gdx.physics.box2d.World;
 import com.mrwalker.firstgame.Camera;
 import com.mrwalker.firstgame.Converter.Converter;
-import com.mrwalker.firstgame.Map.MapManager;
-import com.mrwalker.firstgame.Entity.Player;
+import com.mrwalker.firstgame.Entity.Entity;
+import com.mrwalker.firstgame.GameMap.GameMap;
 import com.mrwalker.firstgame.PlayerController.PlayerController;
 import com.mrwalker.firstgame.PlayerController.PlayerDesktopController;
+import com.mrwalker.firstgame.Utility.Utility;
+import com.mrwalker.firstgame.WorldManager;
 import com.mrwalker.firstgame.auxiliary.Position2;
 
 public class StageManager {
 
-    private World world;
-
-    private Player player;
-    private MapManager mapManager;
-    private Camera cameraInstance;
+    private Entity player;
     private PlayerController playerController;
+    private GameMap map;
 
     private Box2DDebugRenderer debugRenderer;
     private Matrix4 matrix4;
 
-    public StageManager() {
-        Camera.initInstance();
-        cameraInstance = Camera.getInstance();
-        playerController = new PlayerDesktopController();
-        world = new World(new Vector2(0,0), true);
 
-        world.setContactListener(new ContactListener() {
+    public StageManager() {
+        playerController = new PlayerDesktopController();
+        Utility.loadAsset("tiledmap", "maps/basic-map.tmx");
+        Utility.loadAsset("texture", "entity/hero/leather_armor.png");
+        Utility.loadAsset("texture", "entity/hero/male_head2.png");
+        Utility.finishLoading();
+        player = new Entity();
+        map = new GameMap("maps/basic-map.tmx");
+
+        WorldManager.getWorld().setContactListener(new ContactListener() {
             @Override
             public void beginContact(Contact contact) {
                 System.out.println("CONTACT");
@@ -60,51 +61,45 @@ public class StageManager {
     }
 
     public void createPlayer(){
-        player = new Player(world);
-        player.loadAssets();
-        player.setAssets();
-        player.setPosition(mapManager.getPoint("spawn", "Spawn"));
+        player.setPosition(map.getPoint("spawn", "Spawn"));
         playerController.setController(player);
     }
 
     public void createMap(){
-        mapManager = new MapManager(world);
-        Converter.setMapIsometricSize(mapManager.getIsometricSize());
+        Converter.setMapIsometricSize(map.getIsometricSize());
     }
 
     public void createCameraDependency(SpriteBatch batch){
-        batch.setProjectionMatrix(cameraInstance.getCamera().combined);
-        mapManager.setView(cameraInstance.getCamera());
-        cameraInstance.update();
+        batch.setProjectionMatrix(Camera.getCamera().combined);
+        map.setView();
     }
 
     public void setCameraPosition(Position2 position){
-        cameraInstance.setPosition(position);
+        Camera.setPosition(position);
     }
 
     public void updateCameraToPlayerPosition(){
-        cameraInstance.setPosition(player.getPosition());
-        cameraInstance.update();
+        Camera.setPosition(player.getPosition());
+        Camera.update();
     }
 
     public void render(SpriteBatch batch){
-        world.step(1f/60f, 6, 2);
+        WorldManager.getWorld().step(1f/60f, 6, 2);
 
         matrix4 = batch.getProjectionMatrix().cpy();
-        mapManager.render();
+        map.render();
         batch.begin();
         player.render(batch);
         batch.end();
-        debugRenderer.render(world, matrix4);
-        player.update();
+        debugRenderer.render(WorldManager.getWorld(), matrix4);
     }
 
     public void updateCamera(){
-        cameraInstance.update();
+        Camera.update();
     }
 
     public void dispose(){
-        mapManager.dispose();
+        map.dispose();
         player.dispose();
     }
 }

@@ -3,22 +3,15 @@ package com.mrwalker.firstgame.PlayerController;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
-import com.mrwalker.firstgame.Entity.Player;
+import com.mrwalker.firstgame.Entity.Entity;
 
 public class PlayerDesktopController implements InputProcessor, PlayerController {
 
-    private Player player;
-    private float velocity = 1000000000;
+    private Entity player;
 
     private float rotation = 0;
 
-    private Vector2 setVelocityInMove(Vector2 move){
-        return new Vector2(
-            move.x * velocity,
-            move.y * velocity);
-    }
-
-    public void setController(Player player) {
+    public void setController(Entity player) {
         this.player = player;
         Gdx.input.setInputProcessor(this);
     }
@@ -26,14 +19,14 @@ public class PlayerDesktopController implements InputProcessor, PlayerController
     @Override
     public boolean keyDown(int keycode) {
         Directions.keyDown(keycode);
-        player.movePlayer(setVelocityInMove(Directions.getVelocity()), Directions.getRotation());
+        player.move(Directions.getVelocity(), Directions.getRotation());
         return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
         Directions.keyUp(keycode);
-        player.movePlayer(setVelocityInMove(Directions.getVelocity()), Directions.getRotation());
+        player.move(Directions.getVelocity(), Directions.getRotation());
         return false;
     }
 

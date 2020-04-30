@@ -1,4 +1,4 @@
-package com.mrwalker.firstgame.Map;
+package com.mrwalker.firstgame.GameMap;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
@@ -9,22 +9,23 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
+import com.mrwalker.firstgame.Camera;
 import com.mrwalker.firstgame.Converter.Converter;
+import com.mrwalker.firstgame.Utility.Utility;
+import com.mrwalker.firstgame.WorldManager;
 import com.mrwalker.firstgame.auxiliary.Position2;
 import com.mrwalker.firstgame.auxiliary.Size2;
 
-public class Map {
-    private static final String TAG = MapManager.class.getSimpleName();
+public class GameMap {
+    private static final String TAG = GameMap.class.getSimpleName();
 
-    private World world;
+    private String name = null;
 
     private TiledMap map = null;
     private String level;
     private IsometricTiledMapRenderer mapRenderer = null;
     private Size2 mapIsometricSize;
     private Size2 mapSize;
-    private String mapName = "Load map error!";
 
     //lake body
     private BodyDef bodyDef;
@@ -33,14 +34,13 @@ public class Map {
     private Fixture fixture;
     private PolygonShape shape;
 
-    public Map(World world) {
-        this.world = world;
+    public GameMap(String path) {
+        loadMap(Utility.getTiledMap(path));
     }
 
-    public void loadMap(TiledMap map, String level){
+    public void loadMap(TiledMap map){
         this.map = map;
-        this.level = level;
-        mapName = this.map.getProperties().get("name", String.class);
+        name = this.map.getProperties().get("name", String.class);
         mapIsometricSize = new Size2(
                 this.map.getProperties().get("isometricWidth", Integer.class),
                 this.map.getProperties().get("isometricHeight", Integer.class));
@@ -50,7 +50,7 @@ public class Map {
                 (float) this.map.getProperties().get("height", Integer.class)
         );
 
-        PolygonMapObject polygonMapObject = (PolygonMapObject) this.map.getLayers().get(level + "Collision").getObjects().get(0);
+        PolygonMapObject polygonMapObject = (PolygonMapObject) this.map.getLayers().get("Collision").getObjects().get(0);
         float[] vertices = polygonMapObject.getPolygon().getTransformedVertices();
         for (int i = 0; i < vertices.length; i+=2){
             Position2 pos = Converter.isometricToCartesian(new Position2(vertices[i], vertices[i+1]));
@@ -61,7 +61,7 @@ public class Map {
         bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.StaticBody;
 
-        body = world.createBody(bodyDef);
+        body = WorldManager.getWorld().createBody(bodyDef);
 
         shape = new PolygonShape();
         shape.set(vertices);
@@ -74,11 +74,11 @@ public class Map {
     public Position2 getPoint(String name, String layer){
         return Converter.isometricToCartesian (
                 new Position2(
-                        map.getLayers().get(level+layer)
+                        map.getLayers().get(layer)
                                 .getObjects().get(name)
                                 .getProperties()
                                 .get("x", Float.class),
-                        map.getLayers().get(level+layer)
+                        map.getLayers().get(layer)
                                 .getObjects().get(name)
                                 .getProperties()
                                 .get("y", Float.class)
@@ -98,8 +98,9 @@ public class Map {
         return mapRenderer;
     }
 
-    public void setView(OrthographicCamera camera){
-        mapRenderer.setView(camera);
+    public void setView(){
+        mapRenderer.setView(Camera.getCamera());
+        Camera.update();
     }
 
     public void render(){
