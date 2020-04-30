@@ -9,6 +9,8 @@ public class Directions {
     private static Vector2 velocity = new Vector2(0,0);
     private static int rotation = 0;
 
+    private static final float multiplayer = (float) (Math.sqrt(2)/2);
+
     public static void keyDown(int keycode){
         switch (keycode){
             case Keys.UP:
@@ -52,12 +54,16 @@ public class Directions {
     }
 
     public static Vector2 getVelocity(){
+        if (velocity.x != 0 && velocity.y != 0){
+            return new Vector2(velocity.x * multiplayer, velocity.y * multiplayer);
+        }
         return velocity;
     }
 
     public static int getRotation() {
         if (velocity.x == 0 && velocity.y >= 0){
             rotation = 0;
+
         }
         else if (velocity.x == 0 && velocity.y <= 0){
             rotation = 180;
