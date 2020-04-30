@@ -1,18 +1,11 @@
 package com.mrwalker.firstgame.GameMap;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.mrwalker.firstgame.Camera;
 import com.mrwalker.firstgame.Converter.Converter;
 import com.mrwalker.firstgame.Utility.Utility;
@@ -20,7 +13,6 @@ import com.mrwalker.firstgame.auxiliary.Position2;
 import com.mrwalker.firstgame.auxiliary.Size2;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class GameMap {
     private static final String TAG = GameMap.class.getSimpleName();
