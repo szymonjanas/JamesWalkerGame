@@ -42,6 +42,8 @@ public class GameMap {
     private Fixture fixture;
     private PolygonShape shape;
 
+    private MapObjects spawns;
+
     public GameMap(String path) {
         loadMap(Utility.getTiledMap(path));
     }
@@ -59,6 +61,8 @@ public class GameMap {
         );
 
         createCollisionLayer();
+
+        this.spawns = this.map.getLayers().get("Spawn").getObjects();
 
         mapRenderer = new IsometricTiledMapRenderer(this.map);
     }
@@ -83,17 +87,11 @@ public class GameMap {
     }
 
 
-    public Position2 getPoint(String name, String layer){
+    public Position2 getSpawnPoint(String name){
         return Converter.isometricToCartesian (
                 new Position2(
-                        map.getLayers().get(layer)
-                                .getObjects().get(name)
-                                .getProperties()
-                                .get("x", Float.class),
-                        map.getLayers().get(layer)
-                                .getObjects().get(name)
-                                .getProperties()
-                                .get("y", Float.class)
+                        spawns.get(name).getProperties().get("x", Float.class),
+                        spawns.get(name).getProperties().get("y", Float.class)
                 )
         );
     }
