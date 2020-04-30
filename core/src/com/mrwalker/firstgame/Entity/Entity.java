@@ -1,42 +1,56 @@
 package com.mrwalker.firstgame.Entity;
 
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
+import com.mrwalker.firstgame.Utility.Utility;
+import com.mrwalker.firstgame.auxiliary.Position2;
 
 public class Entity {
+    private static final String TAG = Entity.class.getSimpleName();
 
-    protected World world;
+    private EntityBody body;
+    private EntityState entityState;
+    private EntityAnimation animation;
 
-    protected BodyDef bodyDef;
-    protected Body body;
-    protected CircleShape circleShape;
-    protected FixtureDef fixtureDef;
-    protected Fixture fixture;
+    public Entity() {
+        entityState = new EntityState();
+        entityState.rotation = 180;
+        entityState.movement = EntityState.Movements.Stance;
+        entityState.position = new Position2(0f,0f);
+        entityState.direction = EntityState.Directions.Down;
+        body = new EntityBody(entityState);
+        animation = new EntityAnimation(entityState);
+    }
 
-    protected Entity(World world){
-        this.world = world;
+    public void move(Vector2 force, int rotation){
+        body.clearVelocity();
+        if (force.x == 0 && force.y == 0){
+            entityState.movement = EntityState.Movements.Stance;
+        } else {
+            entityState.movement = EntityState.Movements.Running;
+            body.move(entityState.multiplyWithVelocity(force));
+            entityState.rotation = rotation;
+        }
+    }
 
-        bodyDef = new BodyDef();
-        bodyDef.position.set(0f, 0f);
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        body = this.world.createBody(bodyDef);
-        body.setLinearVelocity(0,0);
-        circleShape = new CircleShape();
-        circleShape.setRadius(10f); //set example radius
+    public Position2 getPosition(){
+        return entityState.position;
+    }
 
-        fixtureDef = new FixtureDef();
-        fixtureDef.shape = circleShape;
-        // default values from libgdx site
-        fixtureDef.density = 1f;
+    public void setPosition(Position2 position){
+        entityState.position = position;
+    }
 
-        fixture = body.createFixture(fixtureDef);
-        circleShape.dispose();
+    public void setRotation(int rotation){
+        entityState.rotation = rotation;
+    }
 
-        body.setFixedRotation(true);
+    public void render(SpriteBatch batch){
+        this.body.update();
+        this.animation.renderAnimation(batch);
+    }
+
+    public void dispose(){
 
     }
 }
