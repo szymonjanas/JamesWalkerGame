@@ -19,7 +19,6 @@ public class MapBody {
 
         shape = new PolygonShape();
         shape.set(vertices);
-        System.out.println("HELLO");
         body.createFixture(shape, 1f);
         shape.dispose();
     }
