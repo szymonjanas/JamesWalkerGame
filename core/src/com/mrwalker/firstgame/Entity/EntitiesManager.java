@@ -1,6 +1,7 @@
 package com.mrwalker.firstgame.Entity;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.ArrayList;
 
@@ -45,5 +46,17 @@ public class EntitiesManager {
 
     public boolean contains(Entity entity){
         return entities.contains(entity);
+    }
+
+    public void render(SpriteBatch batch){
+        for (Entity entity: entities){
+            entity.render(batch);
+        }
+    }
+
+    public void dispose(){
+        for (Entity entity: entities){
+            entity.dispose();
+        }
     }
 }
