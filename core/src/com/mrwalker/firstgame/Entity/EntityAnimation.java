@@ -60,8 +60,6 @@ public class EntityAnimation {
     public EntityAnimation(EntityState entityState, EntityAnimationConfig config) {
         this.config = config;
         this.entityState = entityState;
-
-
         loadAnimations();
     }
 
@@ -107,12 +105,23 @@ public class EntityAnimation {
         entityState.direction = direction;
     }
 
+    private int hitanddie = 0;
+
     public void renderAnimation(SpriteBatch batch){
         update();
         stateTime += Gdx.graphics.getDeltaTime();
+        if (entityState.movement == HitAndDie){
+            for ( Map<Directions, Map<Movements, Animation<TextureRegion>>> object : animations){
+                batch.draw(object.get(entityState.direction).get(entityState.movement).getKeyFrame(0.6666666f, false),
+                        entityState.position.getX()+correctionFrameX, entityState.position.getY()+correctionFrameY);
+            }
+            return;
+        }
         for ( Map<Directions, Map<Movements, Animation<TextureRegion>>> object : animations){
             batch.draw(object.get(entityState.direction).get(entityState.movement).getKeyFrame(stateTime, true),
                     entityState.position.getX()+correctionFrameX, entityState.position.getY()+correctionFrameY);
         }
     }
+
+
 }

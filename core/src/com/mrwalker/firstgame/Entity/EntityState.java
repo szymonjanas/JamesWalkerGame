@@ -11,6 +11,7 @@ public class EntityState {
         this.entityData = entityData;
     }
 
+    public boolean isAlive = true;
     public Position2 position;
     public Movements movement;
     public Directions direction;

@@ -34,13 +34,15 @@ public class Entity {
     }
 
     public void move(Vector2 force, int rotation){
-        body.clearVelocity();
-        if (force.x == 0 && force.y == 0){
-            entityState.movement = EntityState.Movements.Stance;
-        } else {
-            entityState.movement = EntityState.Movements.Running;
-            body.move(entityState.multiplyWithVelocity(force));
-            entityState.rotation = rotation;
+        if (isAlive()){
+            body.clearVelocity();
+            if (force.x == 0 && force.y == 0){
+                entityState.movement = EntityState.Movements.Stance;
+            } else {
+                entityState.movement = EntityState.Movements.Running;
+                body.move(entityState.multiplyWithVelocity(force));
+                entityState.rotation = rotation;
+            }
         }
     }
 
@@ -49,12 +51,23 @@ public class Entity {
     }
 
     public void setPosition(Position2 position){
-        entityState.position = position;
-        this.body.upgrade();
+        if (isAlive()){
+            entityState.position = position;
+            this.body.upgrade();
+        }
     }
 
     public void setRotation(int rotation){
         entityState.rotation = rotation;
+    }
+
+    public void kill(){
+        entityState.isAlive = false;
+        entityState.movement = EntityState.Movements.HitAndDie;
+    }
+
+    public boolean isAlive(){
+        return entityState.isAlive;
     }
 
     public void render(SpriteBatch batch){
