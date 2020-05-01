@@ -2,6 +2,7 @@ package com.mrwalker.firstgame.Entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mrwalker.firstgame.Contact.EntityIdentification;
 
 import java.util.ArrayList;
 
@@ -41,6 +42,15 @@ public class EntitiesManager {
                 return entity;
         }
         Gdx.app.error(TAG, "Entity with given ID not found: " + ID);
+        return null;
+    }
+
+    public Entity getByIdentification(EntityIdentification entityIdentification){
+        for (Entity entity: entities){
+            if (entity.getEntityIdentification().equals(entityIdentification))
+                return entity;
+        }
+        Gdx.app.error(TAG, "Entity not found! Wrong identification given!");
         return null;
     }
 
