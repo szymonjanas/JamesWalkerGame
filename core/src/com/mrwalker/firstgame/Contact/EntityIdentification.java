@@ -1,14 +1,15 @@
-package com.mrwalker.firstgame.Entity;
+package com.mrwalker.firstgame.Contact;
 
 import com.badlogic.gdx.Gdx;
-import com.mrwalker.firstgame.Contact.ObjectsTypes;
+import com.mrwalker.firstgame.Entity.Entity;
 
-public class EntityIdentification {
+public class EntityIdentification implements ObjectIdentification {
     private static final String TAG = EntityIdentification.class.getSimpleName();
 
     private int ID;
     private ObjectsTypes type;
     private String name;
+    private Entity entity;
 
     public EntityIdentification(int ID, ObjectsTypes type, String name) {
         this.ID = ID;
@@ -43,6 +44,14 @@ public class EntityIdentification {
 
     public String toString(){
         return "[" + this.ID + ", " + this.name + ", " + this.type.toString() + "]";
+    }
+
+    public Entity getEntity() {
+        return entity;
+    }
+
+    public void setEntity(Entity entity) {
+        this.entity = entity;
     }
 
     public static final class Builder{
