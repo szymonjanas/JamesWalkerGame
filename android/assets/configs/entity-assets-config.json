@@ -3,6 +3,7 @@
   assertPaths: {
     class: java.util.HashMap,
     entity/hero/leather_armor.png: texture,
-    entity/hero/male_head2.png: texture
+    entity/hero/male_head2.png: texture,
+    entity/hero/longsword.png: texture
   }
 }
