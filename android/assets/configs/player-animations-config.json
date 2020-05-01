@@ -1,0 +1,9 @@
+{
+  ID: 1100,
+  name: James,
+  type: player,
+  animationsPaths: [
+    entity/hero/leather_armor.png,
+    entity/hero/male_head2.png
+  ]
+}

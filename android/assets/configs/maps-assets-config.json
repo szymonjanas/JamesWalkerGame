@@ -1,0 +1,7 @@
+{
+  name: maps,
+  assertPaths: {
+    class: java.util.HashMap,
+    maps/basic-map.tmx: tiledmap,
+  }
+}

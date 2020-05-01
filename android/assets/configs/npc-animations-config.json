@@ -1,0 +1,9 @@
+{
+  ID: 2001,
+  name: npc,
+  type: NPC,
+  animationsPaths: [
+    entity/hero/leather_armor.png,
+    entity/hero/male_head2.png
+  ]
+}
