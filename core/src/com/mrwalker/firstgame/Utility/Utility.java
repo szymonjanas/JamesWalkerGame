@@ -8,6 +8,8 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.function.BiConsumer;
 
 public class Utility {
     protected static final String TAG = Utility.class.getSimpleName();
@@ -20,8 +22,15 @@ public class Utility {
         assetManager.setLoader(TiledMap.class, new TmxMapLoader(new InternalFileHandleResolver()));
     }
 
+    public static void loadAssets(UtilityConfig config){
+        for (Map.Entry<String,String> entry : config.assertPaths.entrySet()){
+            loadAsset(entry.getValue(), entry.getKey());
+        }
+    }
+
     public static void loadAsset(String type, String path){
         /*
+           Load to Utility:
             assets name types:
             - tiledmap
             - texture
