@@ -77,10 +77,17 @@ public class EntityAnimation {
         for (int dir = 0; dir < directionsTypes.length; ++dir){
             Map<Movements, Animation<TextureRegion>> movingAnimations = new HashMap<>();
             for (int type = 0; type < movementTypes.length; ++type){
-                movingAnimations.put(movementTypes[type],
-                        new Animation<TextureRegion>(
-                                entityState.frameDuration,
-                                Arrays.copyOfRange(temp[dir], framesFrom[type], framesTo[type])));
+                if (type > 1)
+                    movingAnimations.put(movementTypes[type],
+                            new Animation<TextureRegion>(
+                                    entityState.frameDurationForAction,
+                                    Arrays.copyOfRange(temp[dir], framesFrom[type], framesTo[type])));
+                else
+                    movingAnimations.put(movementTypes[type],
+                            new Animation<TextureRegion>(
+                                    entityState.frameDuration,
+                                    Arrays.copyOfRange(temp[dir], framesFrom[type], framesTo[type])));
+
             }
             animations_map.put(directionsTypes[dir], movingAnimations);
         }
@@ -105,18 +112,19 @@ public class EntityAnimation {
         entityState.direction = direction;
     }
 
-    private int hitanddie = 0;
-
     public void renderAnimation(SpriteBatch batch){
         update();
         stateTime += Gdx.graphics.getDeltaTime();
-        if (entityState.movement == HitAndDie){
+        if (    entityState.movement == HitAndDie ||
+                entityState.movement == MeleeSwing ){
             for ( Map<Directions, Map<Movements, Animation<TextureRegion>>> object : animations){
-                batch.draw(object.get(entityState.direction).get(entityState.movement).getKeyFrame(0.6666666f, false),
+                batch.draw(object.get(entityState.direction).get(entityState.movement).getKeyFrame(stateTime, false),
                         entityState.position.getX()+correctionFrameX, entityState.position.getY()+correctionFrameY);
             }
+            if (entityState.movement == MeleeSwing) entityState.movement = Stance;
             return;
         }
+
         for ( Map<Directions, Map<Movements, Animation<TextureRegion>>> object : animations){
             batch.draw(object.get(entityState.direction).get(entityState.movement).getKeyFrame(stateTime, true),
                     entityState.position.getX()+correctionFrameX, entityState.position.getY()+correctionFrameY);
