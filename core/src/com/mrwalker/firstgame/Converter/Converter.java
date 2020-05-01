@@ -2,14 +2,14 @@ package com.mrwalker.firstgame.Converter;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-import com.mrwalker.firstgame.Config.Config;
+import com.mrwalker.firstgame.Config.Settings;
 import com.mrwalker.firstgame.auxiliary.Position2;
 import com.mrwalker.firstgame.auxiliary.Size2;
 
 public class Converter {
     private static final String TAG = Converter.class.getSimpleName();
 
-    private static final int tileWidth = Config.tileWidth, tileHeight = Config.tileHeight;
+    private static final int tileWidth = Settings.tileWidth, tileHeight = Settings.tileHeight;
     private static Size2 sizeIsometricMap = null;
 
     public static void setMapIsometricSize(Size2 isometricSize){
