@@ -1,11 +1,14 @@
 package com.mrwalker.firstgame.Entity;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import com.badlogic.gdx.utils.Json;
+import com.mrwalker.firstgame.Entity.Configs.EntityAnimationConfig;
 import com.mrwalker.firstgame.Utility.Utility;
 import com.mrwalker.firstgame.auxiliary.Position2;
 
@@ -23,7 +26,18 @@ import com.mrwalker.firstgame.auxiliary.Size2;
 public class EntityAnimation {
     private static final String TAG = EntityAnimation.class.getSimpleName();
 
-    private ArrayList< Map<Directions, Map<Movements, Animation<TextureRegion>>>> animations = new ArrayList<>();
+    private final Movements[] movementTypes = {
+            Stance, Running, MeleeSwing, Block, HitAndDie, CastSpell, ShootBow
+    };
+
+    private final Directions[] directionsTypes = {
+            Left, UpLeft, Up, UpRight, Right, DownRight, Down, DownLeft
+    };
+
+    public EntityAnimationConfig config;
+
+
+    private ArrayList<Map<Directions, Map<Movements, Animation<TextureRegion>>>> animations = new ArrayList<>();
 
     private float stateTime = 0f;
 
@@ -34,11 +48,6 @@ public class EntityAnimation {
 
     private Size2 frameSize = new Size2(128, 128);
 
-    public EntityAnimation(EntityState entityState) {
-        this.entityState = entityState;
-        loadAnimations();
-    }
-
     private final int[] framesFrom = {
             0, 4, 12, 17, 19, 25, 29
     };
@@ -47,19 +56,19 @@ public class EntityAnimation {
             3, 11, 16, 18, 24, 28, 32
     };
 
-    private final Movements[] movementTypes = {
-            Stance, Running, MeleeSwing, Block, HitAndDie, CastSpell, ShootBow
-    };
 
-    private final Directions[] directionsTypes = {
-            Left, UpLeft, Up, UpRight, Right, DownRight, Down, DownLeft
-    };
+    public EntityAnimation(EntityState entityState, EntityAnimationConfig config) {
+        this.config = config;
+        this.entityState = entityState;
+
+
+        loadAnimations();
+    }
 
     public void loadAnimations(){
-        Texture body = Utility.getTexture("entity/hero/leather_armor.png");
-        Texture head = Utility.getTexture("entity/hero/male_head2.png");
-        addAnimations(body);
-        addAnimations(head);
+        for (String path: config.animationsPaths){
+            addAnimations(Utility.getTexture(path));
+        }
     }
 
     private void addAnimations(Texture texture){

@@ -1,9 +1,13 @@
 package com.mrwalker.firstgame.Entity;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.mrwalker.firstgame.Utility.Utility;
+import com.badlogic.gdx.utils.Json;
+import com.mrwalker.firstgame.Contact.EntityIdentification;
+import com.mrwalker.firstgame.Entity.Configs.EntityAnimationConfig;
+import com.mrwalker.firstgame.Entity.Configs.EntityConfig;
 import com.mrwalker.firstgame.auxiliary.Position2;
 
 public class Entity {
@@ -15,15 +19,18 @@ public class Entity {
 
     private EntityIdentification entityIdentification;
 
-    public Entity(EntityIdentification entityIdentification) {
+    public Entity(  Position2 position,
+                    EntityIdentification entityIdentification,
+                    EntityConfig config) {
         this.entityIdentification = entityIdentification;
         entityState = new EntityState(this.entityIdentification);
         entityState.rotation = 180;
         entityState.movement = EntityState.Movements.Stance;
-        entityState.position = new Position2(0f,0f);
+        entityState.position = new Position2(0f, 0f);
         entityState.direction = EntityState.Directions.Down;
         body = new EntityBody(entityState);
-        animation = new EntityAnimation(entityState);
+        this.setPosition(position);
+        animation = new EntityAnimation(entityState, (EntityAnimationConfig) config);
     }
 
     public void move(Vector2 force, int rotation){
