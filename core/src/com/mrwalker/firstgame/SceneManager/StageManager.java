@@ -47,32 +47,35 @@ public class StageManager {
 
         // TODO load entities config from file - config for entity
         entities = new EntitiesManager();
-        entities.add( new Entity(
+        player = new Entity(
+                1f,
+                map.getSpawnPoint("player"),
+                new EntityIdentification.Builder()
+                        .id(1000)
+                        .name("James")
+                        .type(ObjectsTypes.Entity)
+                        .build(),
+                Config.load(EntityAnimationConfig.class, "configs/player-animations-config.json")
+        );
+        player.setAsPlayer(playerController);
+        entities.add(player);
+        Entity entity = new Entity(
+                0.8f,
                 map.getSpawnPoint("npc"),
                 new EntityIdentification.Builder()
                         .id(1001)
                         .name("John")
-                        .type(ObjectsTypes.NPC)
+                        .type(ObjectsTypes.Entity)
                         .build(),
                 Config.load(EntityAnimationConfig.class, "configs/npc-animations-config.json")
-        ));
-        player = new Entity(
-                map.getSpawnPoint("player"),
-                new EntityIdentification.Builder()
-                            .id(1000)
-                            .name("James")
-                            .type(ObjectsTypes.Player)
-                            .build(),
-                Config.load(EntityAnimationConfig.class, "configs/player-animations-config.json")
         );
+//        entity.setAsPlayer(playerController);
+        entities.add(entity);
 
 
-        WorldManager.getWorld().setContactListener(new Contact(entities, player));
+
+        WorldManager.getWorld().setContactListener(new Contact(entities));
         debugRenderer = new Box2DDebugRenderer();
-    }
-
-    public void createPlayer(){
-        playerController.setController(player);
     }
 
     public void createMap(){
@@ -88,11 +91,6 @@ public class StageManager {
         Camera.setPosition(position);
     }
 
-    public void updateCameraToPlayerPosition(){
-        Camera.setPosition(player.getPosition());
-        Camera.update();
-    }
-
     public void render(SpriteBatch batch){
         WorldManager.getWorld().step(1f/60f, 6, 2);
 
@@ -100,7 +98,6 @@ public class StageManager {
         map.render();
         batch.begin();
         entities.render(batch);
-        player.render(batch);
         batch.end();
         debugRenderer.render(WorldManager.getWorld(), matrix4);
     }
@@ -111,7 +108,6 @@ public class StageManager {
 
     public void dispose(){
         map.dispose();
-        player.dispose();
         entities.dispose();
     }
 }
