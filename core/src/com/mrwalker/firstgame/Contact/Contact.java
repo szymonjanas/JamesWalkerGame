@@ -10,11 +10,9 @@ import com.mrwalker.firstgame.Entity.Entity;
 public class Contact implements ContactListener {
 
     EntitiesManager entities;
-    Entity player;
 
-    public Contact(EntitiesManager entities, Entity player) {
+    public Contact(EntitiesManager entities) {
         this.entities = entities;
-        this.player = player;
     }
 
     @Override
@@ -24,10 +22,15 @@ public class Contact implements ContactListener {
 
         EntityIdentification entityIdentificationA = (EntityIdentification) bodyA.getUserData();
         EntityIdentification entityIdentificationB = (EntityIdentification) bodyB.getUserData();
-
-        if (entityIdentificationA.getType() == player.getEntityIdentification().getType() ||
-            entityIdentificationB.getType() == player.getEntityIdentification().getType()){
-            player.kill();
+        if (entityIdentificationA.getType() == ObjectsTypes.Entity &&
+            entityIdentificationB.getType() == ObjectsTypes.Entity){
+            Entity entityA = entities.getByIdentification(entityIdentificationA);
+            Entity entityB = entities.getByIdentification(entityIdentificationB);
+            if (entityA.isPlayer()){
+                entityB.attack(entityA);
+            } else {
+                entityA.attack(entityB);
+            }
         }
     }
 
