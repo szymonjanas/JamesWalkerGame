@@ -11,14 +11,19 @@ public class EntityState {
         this.entityData = entityData;
     }
 
+    public boolean isPlayer = false;
     public boolean isAlive = true;
+    public int health = 100;
+    public int damages = 100;
+
     public Position2 position;
     public Movements movement;
     public Directions direction;
     public int rotation;
     public int velocity = 5000000;
     public float speed = 1f; // 0-100%
-    public float frameDuration = 1f/9f;
+    public float frameDuration = 1f/8f;
+    public float frameDurationForAction = 1f/2f;
 
     public Vector2 multiplyWithVelocity(Vector2 force){
         return new Vector2(
