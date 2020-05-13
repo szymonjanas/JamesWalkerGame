@@ -1,6 +1,5 @@
-package com.mrwalker.firstgame.Entity.Animations;
+package com.mrwalker.firstgame.Entity.Models.Configs;
 
-import com.mrwalker.firstgame.Entity.Configs.EntityConfig;
 import com.mrwalker.firstgame.Entity.Models.Behaviour;
 import com.mrwalker.firstgame.Entity.Models.Directions;
 
@@ -12,8 +11,6 @@ public class EntityAnimationConfig implements EntityConfig {
     public int correctionFrameY;
     public int frameWidth;
     public int frameHeight;
-    public int framesInRow;
-    public int framesInCol;
     public float frameDurationForActions;
     public float frameDurationsForMovement;
     public ArrayList<Behaviour> behaviours;

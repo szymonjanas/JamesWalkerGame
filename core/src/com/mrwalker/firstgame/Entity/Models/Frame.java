@@ -1,4 +1,4 @@
-package com.mrwalker.firstgame.Entity.Animations;
+package com.mrwalker.firstgame.Entity.Models;
 
 public class Frame {
 
