@@ -31,6 +31,7 @@ public class EntityLocation {
 
     public void setOrientation(short orientation) {
         this.orientation = orientation;
+        setDirection(orientation);
     }
 
     public Directions getDirections() {
