@@ -41,10 +41,7 @@ public class EntityFactory {
                 );
                 bodyConfig = new EntityBodyConfig();
                 body = new EntityBody(bodyConfig, state);
-                json = new Json();
-                file = Gdx.files.local("configs/player-animations-config.json");
-                file.writeString(anim, true);
-                config = json.fromJson(EntityAnimationConfig.class, anim);
+                config = EntityAnimationConfig.getFromFile("configs/player-animations-config.json");
                 animation = new EntityAnimation(config, state);
                 return new Entity(state, body, animation);
             case ENEMY:
@@ -56,10 +53,7 @@ public class EntityFactory {
                 );
                 bodyConfig = new EntityBodyConfig();
                 body = new EntityBody(bodyConfig, state);
-                json = new Json();
-                file = Gdx.files.local("configs/npc-animations-config.json");
-                file.writeString(anim, true);
-                config = json.fromJson(EntityAnimationConfig.class, anim);
+                config = EntityAnimationConfig.getFromFile("configs/npc-animations-config.json");
                 animation = new EntityAnimation(config, state);
                 return new Entity(state, body, animation);
             default:
