@@ -74,7 +74,7 @@ public class Entity {
         this.animation.render(batch);
     }
 
-    public Object getEntityIdentification(){
+    public Object getID(){
         return state.getID();
     }
 
