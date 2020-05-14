@@ -55,7 +55,7 @@ public class EntityAnimation {
             sum += num;
             tempArr.add(sum);
         }
-        for (int i = 0; i < config.behaviours.size(); i+=2){
+        for (int i = 0; i < config.behaviours.size(); ++i){
             frames.add(new Frame(tempArr.get(i), tempArr.get(i+1)-1));
         }
         return frames;
