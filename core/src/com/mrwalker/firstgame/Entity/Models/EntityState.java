@@ -1,6 +1,8 @@
 package com.mrwalker.firstgame.Entity.Models;
 
 import com.mrwalker.firstgame.BodyID.BodyID;
+import com.mrwalker.firstgame.BodyID.BodyType;
+import com.mrwalker.firstgame.auxiliary.Position2;
 
 public class EntityState {
 
@@ -34,5 +36,16 @@ public class EntityState {
 
     public void setBehaviour(Behaviour behaviour) {
         this.behaviour = behaviour;
+    }
+
+
+    public static EntityState getDefault(){
+        // FOR TESTING
+        return new EntityState(
+                new EntityLocation((short) 270, Directions.Down, new Position2(0f, 0f)),
+                new EntityCondition(true, (short) 100, (short) 0, (byte) 100),
+                BodyID.createBodyID(BodyType.Entity),
+                Behaviour.Stance
+        );
     }
 }
