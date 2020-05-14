@@ -105,5 +105,4 @@ public class EntityAnimation {
         if (entityState.getBehaviour() == MeleeSwing)
             entityState.setBehaviour(Stance);
         }
-    }
 }
