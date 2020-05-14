@@ -79,7 +79,7 @@ public class BodyID {
         if (isBodyIDPresent(bodyID))
             Gdx.app.error(TAG,
                     "Cannot add body to map, body with ID already exist: [" +
-                            bodyID.getID() + ", " + bodyID.getType().name() + " ]" );
+                            bodyID.getID() + ", " + bodyID.getType().toString() + " ]" );
         else
             ids.add(bodyID);
     }
