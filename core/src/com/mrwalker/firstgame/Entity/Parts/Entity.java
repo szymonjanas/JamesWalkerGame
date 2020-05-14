@@ -15,6 +15,7 @@ public class Entity {
     protected final EntityBody body;
     protected final EntityState state;
     protected final EntityAnimation animation;
+    public final EntityActions actions;
 
     public Entity(@NotNull EntityState state,
                   @NotNull EntityBody body,
@@ -22,19 +23,7 @@ public class Entity {
         this.state = state;
         this.body = body;
         this.animation = animation;
-    }
-
-    public void move(Vector2 force, short orientation){
-        if (state.getCondition().isAlive()){
-            body.clearVelocity();
-            if (force.x == 0 && force.y == 0){
-                state.setBehaviour(Behaviour.Stance);
-            } else {
-                state.setBehaviour(Behaviour.Running);
-                body.move(state.getCondition().calculateRunForce(force));
-                state.getLocation().setOrientation(orientation);
-            }
-        }
+        actions = new EntityActions(this);
     }
 
     public Position2 getPosition(){
@@ -51,20 +40,6 @@ public class Entity {
 
     public void setRotation(int rotation){
         state.getLocation().setOrientation((short) rotation);
-    }
-
-    public void getDamages(int damages){
-        if (damages >= state.getCondition().getHealth()) die();
-        else state.getCondition().getHurt((short) damages);
-    }
-
-    public void attack(Entity entity){
-        state.setBehaviour(Behaviour.MeleeSwing);
-        entity.getDamages(state.getCondition().getDamages());
-    }
-
-    public void die(){
-        state.getCondition().setAlive(false);
     }
 
     public void render(SpriteBatch batch){
