@@ -2,7 +2,8 @@ package com.mrwalker.firstgame.Entity;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mrwalker.firstgame.Contact.EntityIdentification;
+import com.mrwalker.firstgame.BodyID.BodyID;
+import com.mrwalker.firstgame.Entity.Parts.Entity;
 
 import java.util.ArrayList;
 
@@ -27,27 +28,18 @@ public class EntitiesManager {
         }
     }
 
-    public Entity getByName(String name){
-        for (Entity entity: entities){
-            if (name.equals(entity.getEntityIdentification().getName()))
-                return entity;
-        }
-        Gdx.app.error(TAG, "Entity with given name not found: " + name);
-        return null;
-    }
-
     public Entity getByID(int ID){
         for (Entity entity: entities){
-            if (ID == entity.getEntityIdentification().getID())
+            if (ID == entity.getID().getID())
                 return entity;
         }
         Gdx.app.error(TAG, "Entity with given ID not found: " + ID);
         return null;
     }
 
-    public Entity getByIdentification(EntityIdentification entityIdentification){
+    public Entity getByIdentification(BodyID bodyID){
         for (Entity entity: entities){
-            if (entity.getEntityIdentification().equals(entityIdentification))
+            if (entity.getID().equals(bodyID))
                 return entity;
         }
         Gdx.app.error(TAG, "Entity not found! Wrong identification given!");
