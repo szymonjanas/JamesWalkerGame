@@ -20,10 +20,16 @@ import com.mrwalker.firstgame.auxiliary.Position2;
 public class EntityFactory {
     private static final String TAG = EntityFactory.class.getSimpleName();
 
-    public Entity getEntity(EntityType type){
+    public static Entity getEntity(EntityType type){
         EntityState state;
         EntityBody body;
         EntityAnimation animation;
+
+        EntityBodyConfig bodyConfig;
+        Json json;
+        String anim = "";
+        FileHandle file;
+        EntityAnimationConfig config;
 
         switch (type){
             case PLAYER:
@@ -33,15 +39,14 @@ public class EntityFactory {
                             BodyID.createBodyID(BodyType.Entity),
                             Behaviour.Stance
                 );
-                EntityBodyConfig bodyConfig = new EntityBodyConfig();
+                bodyConfig = new EntityBodyConfig();
                 body = new EntityBody(bodyConfig, state);
-                Json json = new Json();
-                String anim = "";
-                FileHandle file = Gdx.files.local("configs/player-animations-config.json");
+                json = new Json();
+                file = Gdx.files.local("configs/player-animations-config.json");
                 file.writeString(anim, true);
-                EntityAnimationConfig config = json.fromJson(EntityAnimationConfig.class, anim);
+                config = json.fromJson(EntityAnimationConfig.class, anim);
                 animation = new EntityAnimation(config, state);
-                break;
+                return new Entity(state, body, animation);
             case ENEMY:
                 state = new EntityState(
                         new EntityLocation((short) 270, Directions.Down, new Position2(100f, 100f)),
@@ -49,19 +54,18 @@ public class EntityFactory {
                         BodyID.createBodyID(BodyType.Entity),
                         Behaviour.Stance
                 );
-                EntityBodyConfig bodyConfig = new EntityBodyConfig();
+                bodyConfig = new EntityBodyConfig();
                 body = new EntityBody(bodyConfig, state);
-                Json json = new Json();
-                String anim = "";
-                FileHandle file = Gdx.files.local("configs/npc-animations-config.json");
+                json = new Json();
+                file = Gdx.files.local("configs/npc-animations-config.json");
                 file.writeString(anim, true);
-                EntityAnimationConfig config = json.fromJson(EntityAnimationConfig.class, anim);
+                config = json.fromJson(EntityAnimationConfig.class, anim);
                 animation = new EntityAnimation(config, state);
-                break;
+                return new Entity(state, body, animation);
             default:
                 Gdx.app.error(TAG, "Cannot match EntityType: " + type.toString());
         }
-        return new Entity(state, body, animation);
+        return null;
     }
 
 }
