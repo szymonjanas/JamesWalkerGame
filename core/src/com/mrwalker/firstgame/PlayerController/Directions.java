@@ -62,17 +62,17 @@ public class Directions {
 
     public static int getRotation() {
         if (velocity.x == 0 && velocity.y >= 0){
-            rotation = 0;
+            rotation = 90;
 
         }
         else if (velocity.x == 0 && velocity.y <= 0){
-            rotation = 180;
+            rotation = 270;
         }
         else if (velocity.x >= 0 && velocity.y == 0){
-            rotation = 90;
+            rotation = 0;
         }
         else if (velocity.x <= 0 && velocity.y == 0){
-            rotation = 270;
+            rotation = 180;
         }
         else if (velocity.x > 0 && velocity.y > 0){
             rotation = 45;
@@ -81,10 +81,10 @@ public class Directions {
             rotation = 225;
         }
         else if (velocity.x < 0 && velocity.y > 0){
-            rotation = 315;
+            rotation = 135;
         }
         else if (velocity.x > 0 && velocity.y < 0){
-            rotation = 135;
+            rotation = 315;
         }
         return rotation;
     }
