@@ -12,9 +12,9 @@ import com.mrwalker.firstgame.Entity.Models.Configs.EntityBodyConfig;
 import com.mrwalker.firstgame.Entity.Models.Directions;
 import com.mrwalker.firstgame.Entity.Models.EntityCondition;
 import com.mrwalker.firstgame.Entity.Models.EntityLocation;
-import com.mrwalker.firstgame.Entity.Parts.Animations.EntityAnimation;
+import com.mrwalker.firstgame.Entity.Parts.EntityAnimation;
 import com.mrwalker.firstgame.Entity.Parts.Entity;
-import com.mrwalker.firstgame.Entity.Parts.EntityBody.EntityBody;
+import com.mrwalker.firstgame.Entity.Parts.EntityBody;
 import com.mrwalker.firstgame.auxiliary.Position2;
 
 public class EntityFactory {
