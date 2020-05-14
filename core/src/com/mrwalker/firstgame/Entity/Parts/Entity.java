@@ -3,7 +3,7 @@ package com.mrwalker.firstgame.Entity.Parts;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.mrwalker.firstgame.BodyID.BodyID;
-import com.mrwalker.firstgame.Entity.EntityBody;
+import com.mrwalker.firstgame.Entity.Parts.EntityBody.EntityBody;
 import com.mrwalker.firstgame.Entity.Models.Behaviour;
 import com.mrwalker.firstgame.Entity.Models.EntityState;
 import com.mrwalker.firstgame.Entity.Parts.Animations.EntityAnimation;
@@ -74,7 +74,7 @@ public class Entity {
         this.animation.render(batch);
     }
 
-    public Object getID(){
+    public BodyID getID(){
         return state.getID();
     }
 
