@@ -1,4 +1,4 @@
-package com.mrwalker.firstgame.Entity.Parts.Animations;
+package com.mrwalker.firstgame.Entity.Parts;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
