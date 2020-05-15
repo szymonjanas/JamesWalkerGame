@@ -2,8 +2,7 @@ package com.mrwalker.firstgame.PlayerController;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.math.Vector2;
-import com.mrwalker.firstgame.Entity.Entity;
+import com.mrwalker.firstgame.Entity.Parts.Entity;
 
 public class PlayerDesktopController implements InputProcessor, PlayerController {
 
@@ -19,14 +18,15 @@ public class PlayerDesktopController implements InputProcessor, PlayerController
     @Override
     public boolean keyDown(int keycode) {
         Directions.keyDown(keycode);
-        player.move(Directions.getVelocity(), Directions.getRotation());
+        player.actions.move(Directions.getVelocity(), (short) Directions.getRotation());
+
         return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
         Directions.keyUp(keycode);
-        player.move(Directions.getVelocity(), Directions.getRotation());
+        player.actions.move(Directions.getVelocity(), (short) Directions.getRotation());
         return false;
     }
 
