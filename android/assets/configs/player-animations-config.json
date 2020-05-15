@@ -1,7 +1,34 @@
 {
-  ID: 1100,
-  name: James,
   type: player,
+  correctionFrameX: -64,
+  correctionFrameY: -64,
+  frameWidth: 128,
+  frameHeight: 128,
+  frameDurationForActions: 0.5,
+  frameDurationsForMovement: 0.125,
+  behaviours: [
+    Stance,
+    Running,
+    MeleeSwing,
+    Block,
+    HitAndDie,
+    CastSpell,
+    ShootBow
+  ],
+  behaviourFramePosition: [
+    4, 8 , 4, 2, 6, 4, 4
+  ],
+  directions: [
+    Left,
+    UpLeft,
+    Up,
+    UpRight,
+    Right,
+    DownRight,
+    Down,
+    DownLeft
+
+  ],
   animationsPaths: [
     entity/hero/leather_armor.png,
     entity/hero/male_head2.png
