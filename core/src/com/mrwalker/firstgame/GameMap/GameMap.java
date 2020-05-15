@@ -6,10 +6,10 @@ import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.IsometricTiledMapRenderer;
+import com.mrwalker.firstgame.BodyID.BodyID;
+import com.mrwalker.firstgame.BodyID.BodyType;
 import com.mrwalker.firstgame.Camera;
-import com.mrwalker.firstgame.Contact.ObjectsTypes;
 import com.mrwalker.firstgame.Converter.Converter;
-import com.mrwalker.firstgame.Contact.EntityIdentification;
 import com.mrwalker.firstgame.Utility.Utility;
 import com.mrwalker.firstgame.auxiliary.Position2;
 import com.mrwalker.firstgame.auxiliary.Size2;
@@ -72,11 +72,7 @@ public class GameMap {
             }
             mapBodies.add(
                     new MapBody(vertices,
-                            new EntityIdentification.Builder()
-                                    .id(2000+objs)
-                                    .name(object.toString())
-                                    .type(ObjectsTypes.Lake)
-                                    .build()));
+                            new BodyID(BodyType.Lake, (short) (2000+objs))));
         }
     }
 
