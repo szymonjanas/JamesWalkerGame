@@ -9,14 +9,16 @@ public class EntityState {
     private final EntityLocation location;
     private final EntityCondition condition;
     private final BodyID ID;
-    private Behaviour behaviour;
+    private final EntityEnvEffect envEffect;
 
     public EntityState(EntityLocation location, EntityCondition condition, BodyID ID, Behaviour behaviour) {
         this.location = location;
         this.condition = condition;
         this.ID = ID;
         this.behaviour = behaviour;
+        this.envEffect = new EntityEnvEffect();
     }
+    private Behaviour behaviour;
 
     public EntityLocation getLocation() {
         return location;
@@ -38,6 +40,9 @@ public class EntityState {
         this.behaviour = behaviour;
     }
 
+    public EntityEnvEffect getEnvEffect() {
+        return envEffect;
+    }
 
     public static EntityState getDefault(){
         // FOR TESTING
