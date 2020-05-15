@@ -1,6 +1,7 @@
 package com.mrwalker.firstgame.PlayerController;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.mrwalker.firstgame.Entity.Parts.Entity;
 
@@ -19,7 +20,8 @@ public class PlayerDesktopController implements InputProcessor, PlayerController
     public boolean keyDown(int keycode) {
         Directions.keyDown(keycode);
         player.actions.move(Directions.getVelocity(), (short) Directions.getRotation());
-
+        if (keycode == Input.Keys.SPACE)
+            player.makeNoise((short) 100);
         return false;
     }
 
