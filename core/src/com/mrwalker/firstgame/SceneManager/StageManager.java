@@ -3,16 +3,14 @@ package com.mrwalker.firstgame.SceneManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.utils.Json;
 import com.mrwalker.firstgame.Camera;
 import com.mrwalker.firstgame.Config.Config;
 import com.mrwalker.firstgame.Contact.Contact;
-import com.mrwalker.firstgame.Contact.ObjectsTypes;
 import com.mrwalker.firstgame.Converter.Converter;
-import com.mrwalker.firstgame.Entity.Configs.EntityAnimationConfig;
 import com.mrwalker.firstgame.Entity.EntitiesManager;
-import com.mrwalker.firstgame.Entity.Entity;
-import com.mrwalker.firstgame.Contact.EntityIdentification;
+import com.mrwalker.firstgame.Entity.Factory.EntityFactory;
+import com.mrwalker.firstgame.Entity.Factory.EntityType;
+import com.mrwalker.firstgame.Entity.Parts.Entity;
 import com.mrwalker.firstgame.GameMap.GameMap;
 import com.mrwalker.firstgame.PlayerController.PlayerController;
 import com.mrwalker.firstgame.PlayerController.PlayerDesktopController;
@@ -26,15 +24,11 @@ public class StageManager {
     private EntitiesManager entities;
     private Entity player;
 
-    private PlayerController playerController;
+    private final PlayerController playerController;
     private GameMap map;
 
     private Box2DDebugRenderer debugRenderer;
     private Matrix4 matrix4;
-
-    private Json json = new Json();
-
-    private Entity npc;
 
     public StageManager() {
         playerController = new PlayerDesktopController();
@@ -47,32 +41,12 @@ public class StageManager {
 
         // TODO load entities config from file - config for entity
         entities = new EntitiesManager();
-        player = new Entity(
-                1f,
-                map.getSpawnPoint("player"),
-                new EntityIdentification.Builder()
-                        .id(1000)
-                        .name("James")
-                        .type(ObjectsTypes.Entity)
-                        .build(),
-                Config.load(EntityAnimationConfig.class, "configs/player-animations-config.json")
-        );
-        player.setAsPlayer(playerController);
+        player = EntityFactory.getEntity(EntityType.PLAYER);
         entities.add(player);
-        Entity entity = new Entity(
-                0.8f,
-                map.getSpawnPoint("npc"),
-                new EntityIdentification.Builder()
-                        .id(1001)
-                        .name("John")
-                        .type(ObjectsTypes.Entity)
-                        .build(),
-                Config.load(EntityAnimationConfig.class, "configs/npc-animations-config.json")
-        );
-//        entity.setAsPlayer(playerController);
-        entities.add(entity);
+        Entity npc = EntityFactory.getEntity(EntityType.ENEMY);
+        entities.add(npc);
 
-
+        playerController.setController(player);
 
         WorldManager.getWorld().setContactListener(new Contact(entities));
         debugRenderer = new Box2DDebugRenderer();
@@ -98,6 +72,7 @@ public class StageManager {
         map.render();
         batch.begin();
         entities.render(batch);
+        setCameraPosition(player.getPosition());
         batch.end();
         debugRenderer.render(WorldManager.getWorld(), matrix4);
     }
