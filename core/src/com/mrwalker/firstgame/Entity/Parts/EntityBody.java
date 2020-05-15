@@ -25,18 +25,38 @@ public class EntityBody {
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         body = WorldManager.getWorld().createBody(bodyDef);
         body.setLinearVelocity(0,0);
-        CircleShape circleShape = new CircleShape();
-        circleShape.setRadius(config.radius); //set example radius
+        CircleShape bodyCircleShape = new CircleShape();
+        bodyCircleShape.setRadius(config.radius); //set example radius
 
-        FixtureDef fixtureDef = new FixtureDef();
-        fixtureDef.shape = circleShape;
+        // BODY
 
-        fixtureDef.restitution = config.restitution;
-        fixtureDef.friction = config.friction;
-        fixtureDef.density = config.density;
+        FixtureDef bodyFixtureDef = new FixtureDef();
+        bodyFixtureDef.shape = bodyCircleShape;
 
-        Fixture fixture = body.createFixture(fixtureDef);
-        circleShape.dispose();
+        bodyFixtureDef.restitution = config.restitution;
+        bodyFixtureDef.friction = config.friction;
+        bodyFixtureDef.density = config.density;
+
+        Fixture bodyFixture = body.createFixture(bodyFixtureDef);
+        bodyCircleShape.dispose();
+
+        // SENSOR
+
+        CircleShape sensorCircleShape = new CircleShape();
+        sensorCircleShape.setRadius(config.radius + 10f); //set example radius
+
+        FixtureDef sensorFixtureDef = new FixtureDef();
+        sensorFixtureDef.shape = sensorCircleShape;
+        sensorFixtureDef.isSensor = true;
+
+        sensorFixtureDef.restitution = config.restitution;
+        sensorFixtureDef.friction = config.friction;
+        sensorFixtureDef.density = config.density;
+
+        Fixture sensorFixture = body.createFixture(sensorFixtureDef);
+        sensorCircleShape.dispose();
+
+
         body.setFixedRotation(true);
 
         body.setUserData(this.state.getID());
