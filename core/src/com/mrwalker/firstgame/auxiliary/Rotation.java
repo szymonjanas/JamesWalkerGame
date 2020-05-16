@@ -16,4 +16,16 @@ public class Rotation {
         else if (value < 0) this.value = (short) (360 + value);
         else this.value = value;
     }
+
+    public boolean equals(Rotation rotation){
+        return value == rotation.getValue();
+    }
+
+    public boolean equals(short rotation){
+        return value == rotation;
+    }
+
+    public Rotation cpy(){
+        return new Rotation(getValue());
+    }
 }
