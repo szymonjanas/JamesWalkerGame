@@ -3,18 +3,18 @@ package com.mrwalker.firstgame.ArtificialIntelligence;
 import com.mrwalker.firstgame.Entity.Parts.Entity;
 import com.mrwalker.firstgame.auxiliary.Position2;
 
-public class aiEntity extends Thread{
+public class AIEntity extends Thread{
 
     protected final Entity entity;
-    protected final aiObstacleAvoidance aiObstacleAvoidance;
+    protected final AIObstacleAvoidance aiObstacleAvoidance;
 
     private Entity aim = null;
     private Position2 aimPosition = null;
     private float distance = 10000;
 
-    public aiEntity(Entity entity) {
+    public AIEntity(Entity entity) {
         this.entity = entity;
-        this.aiObstacleAvoidance = new aiObstacleAvoidance(entity);
+        this.aiObstacleAvoidance = new AIObstacleAvoidance(entity);
         this.start();
     }
     public void run(){
@@ -25,7 +25,7 @@ public class aiEntity extends Thread{
                 e.printStackTrace();
             }
             if (aim != null){
-                this.distance = calculations.getDistance(entity.getPosition(), aim.getPosition());
+                this.distance = AIcalculations.getDistance(entity.getPosition(), aim.getPosition());
                 if (distance > 40){ // distance between entities
                     entity.actions.startMovement();
                     aiObstacleAvoidance.bypassingAnObstacle(entity.getPosition(), aim.getPosition());

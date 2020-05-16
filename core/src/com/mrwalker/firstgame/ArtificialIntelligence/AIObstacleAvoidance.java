@@ -9,12 +9,12 @@ import com.mrwalker.firstgame.auxiliary.Rotation;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class aiObstacleAvoidance {
+public class AIObstacleAvoidance {
 
     private long time;
     private Entity entity;
 
-    public aiObstacleAvoidance(Entity entity) {
+    public AIObstacleAvoidance(Entity entity) {
         this.entity = entity;
     }
 
@@ -30,7 +30,7 @@ public class aiObstacleAvoidance {
             goToPoint(from, getVirtualPoint(from, Rotation.opposite(obj)));
         }
 
-        Rotation rotation = new Rotation(calculations.getRotation(from, to));
+        Rotation rotation = new Rotation(AIcalculations.getRotation(from, to));
         if (whereToGo.contains(rotation.getValue())){
 //            System.out.println(rotation.getValue());
             goToPoint(from, to);
@@ -46,9 +46,9 @@ public class aiObstacleAvoidance {
     }
 
     public void goToPoint(Position2 from, Position2 to){
-        if (calculations.getDistance(from, to) > 10){
-            short rotation = calculations.getRotation(from, to);
-            entity.actions.move(calculations.getForce(rotation), rotation);
+        if (AIcalculations.getDistance(from, to) > 10){
+            short rotation = AIcalculations.getRotation(from, to);
+            entity.actions.move(AIcalculations.getForce(rotation), rotation);
             sleep(5);
         }
 //        entity.actions.stance();
@@ -69,7 +69,7 @@ public class aiObstacleAvoidance {
                 if (start == -1) start = i;
                 stop = i;
                 if (counter >= 35){
-                    short num = calculations.generalizeRotation((short) (start + (stop-start)));
+                    short num = AIcalculations.generalizeRotation((short) (start + (stop-start)));
                     toGo.add(num);
                     start = -1;
                     counter = 0;

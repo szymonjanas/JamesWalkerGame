@@ -5,21 +5,21 @@ import com.mrwalker.firstgame.Entity.Parts.Entity;
 
 import java.util.ArrayList;
 
-public class aiManager {
-    private static final String TAG = aiManager.class.getSimpleName();
+public class AIManager {
+    private static final String TAG = AIManager.class.getSimpleName();
 
-    private final ArrayList<aiEntity> entities;
+    private final ArrayList<AIEntity> entities;
 
-    public aiManager(ArrayList<Entity> entities) {
+    public AIManager(ArrayList<Entity> entities) {
         this.entities = new ArrayList<>();
         for (Entity entity: entities){
             if (!entity.isPlayer())
-                this.entities.add(new aiEntity(entity));
+                this.entities.add(new AIEntity(entity));
         }
     }
 
-    public aiEntity getAIForEntity(Entity entity){
-        for (aiEntity ai: entities){
+    public AIEntity getAIForEntity(Entity entity){
+        for (AIEntity ai: entities){
             if (ai.entity.equals(entity))
                 return ai;
         }
