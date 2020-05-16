@@ -12,6 +12,10 @@ public class EntitiesManager {
 
     private final ArrayList<Entity> entities = new ArrayList<>();
 
+    public ArrayList<Entity> getEntities() {
+        return entities;
+    }
+
     public void add(Entity entity){
         if (!contains(entity)){
             entities.add(entity);

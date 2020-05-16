@@ -3,6 +3,7 @@ package com.mrwalker.firstgame.SceneManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.mrwalker.firstgame.ArtificialIntelligence.aiManager;
 import com.mrwalker.firstgame.Camera;
 import com.mrwalker.firstgame.Config.Config;
 import com.mrwalker.firstgame.Contact.Contact;
@@ -30,6 +31,8 @@ public class StageManager {
     private Box2DDebugRenderer debugRenderer;
     private Matrix4 matrix4;
 
+    private aiManager aiManager;
+
     public StageManager() {
         playerController = new PlayerDesktopController();
 
@@ -48,7 +51,8 @@ public class StageManager {
 
         playerController.setController(player);
 
-        WorldManager.getWorld().setContactListener(new Contact(entities));
+        aiManager = new aiManager(entities.getEntities());
+        WorldManager.getWorld().setContactListener(new Contact(entities, aiManager));
         debugRenderer = new Box2DDebugRenderer();
     }
 

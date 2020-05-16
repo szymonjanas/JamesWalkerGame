@@ -52,4 +52,9 @@ public final class calculations {
         }
         return force;
     }
+
+    public static float getDistance(Position2 from, Position2 to){
+        float distance = (float) (Math.pow(to.getX() - from.getX(), 2) + Math.pow(to.getY() - from.getY(), 2));
+        return (float) Math.sqrt(distance);
+    }
 }

@@ -63,7 +63,6 @@ public class Directions {
     public static int getRotation() {
         if (velocity.x == 0 && velocity.y >= 0){
             rotation = 90;
-
         }
         else if (velocity.x == 0 && velocity.y <= 0){
             rotation = 270;
