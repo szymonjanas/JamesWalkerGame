@@ -13,6 +13,7 @@ public class EntityEnvEffect {
     private float noiseMultiplayer = 0.5f;
 
     private short earshot = 100;
+    private short defaultEarshotValue = 100;
 
     private long periodMillis = 0;
     private long startTime = 0;
@@ -66,6 +67,10 @@ public class EntityEnvEffect {
     }
 
     public void setDefaultEarshot(){
-        this.earshot = 100;
+        this.earshot = defaultEarshotValue;
+    }
+
+    public void setDefaultEarshotValue(short earshot){
+        this.defaultEarshotValue = earshot;
     }
 }

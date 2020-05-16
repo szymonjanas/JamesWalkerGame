@@ -49,7 +49,7 @@ public class EntityState {
         return new EntityState(
                 new EntityLocation((short) 270, Directions.Down, new Position2(0f, 0f)),
                 new EntityCondition(true, (short) 100, (short) 0, (byte) 100),
-                BodyID.createBodyID(BodyType.Entity),
+                BodyID.createBodyID(BodyType.Entity, false),
                 Behaviour.Stance
         );
     }

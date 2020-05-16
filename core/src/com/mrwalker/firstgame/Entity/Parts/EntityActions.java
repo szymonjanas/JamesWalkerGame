@@ -9,6 +9,10 @@ public class EntityActions {
 
     public EntityActions(Entity entity) {
         this.entity = entity;
+        if (entity.getID().isPlayer()){
+            entity.state.getEnvEffect().setDefaultEarshotValue((short) 0);
+            entity.state.getEnvEffect().setDefaultEarshot();
+        }
     }
 
     public void move(Vector2 force, short orientation){

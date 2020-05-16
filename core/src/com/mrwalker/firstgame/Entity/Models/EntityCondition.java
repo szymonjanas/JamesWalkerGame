@@ -1,7 +1,6 @@
 package com.mrwalker.firstgame.Entity.Models;
 
 import com.badlogic.gdx.math.Vector2;
-import com.mrwalker.firstgame.Config.Settings;
 
 public class EntityCondition {
 

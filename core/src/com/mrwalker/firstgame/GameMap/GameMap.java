@@ -72,7 +72,7 @@ public class GameMap {
             }
             mapBodies.add(
                     new MapBody(vertices,
-                            new BodyID(BodyType.Lake, (short) (2000+objs))));
+                            new BodyID(BodyType.Lake, (short) (2000+objs), false)));
         }
     }
 
