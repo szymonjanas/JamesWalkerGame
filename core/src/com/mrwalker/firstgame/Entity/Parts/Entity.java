@@ -42,10 +42,6 @@ public class Entity {
         state.getLocation().setOrientation((short) rotation);
     }
 
-    public void makeNoise(short noise){
-        state.getEnvEffect().setNoiseFor(noise, 1000);
-    }
-
     public void render(SpriteBatch batch){
         this.body.update();
         this.animation.render(batch);

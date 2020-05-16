@@ -38,6 +38,29 @@ public class EntityActions {
         entity.state.getCondition().setAlive(false);
     }
 
+    public void makeNoise(short noise){
+        entity.state.getEnvEffect().setNoiseFor(noise, 1000);
+    }
+
+    public void startMovement(){
+        entity.state.getCondition().setSpeed((byte) 100);
+    }
+
+    public void stopMovement(){
+        entity.state.getCondition().setSpeed((byte) 0);
+        entity.state.setBehaviour(Behaviour.Stance);
+        entity.body.clearVelocity();
+    }
+
+    public void overhears(){
+        stopMovement();
+        entity.state.getEnvEffect().setEarshot((short) 300);
+    }
+
+    public void stopOverhears(){
+        entity.state.getCondition().setSpeed((byte) 100);
+        entity.state.getEnvEffect().setDefaultEarshot();
+    }
 
 
 

@@ -21,7 +21,9 @@ public class PlayerDesktopController implements InputProcessor, PlayerController
         Directions.keyDown(keycode);
         player.actions.move(Directions.getVelocity(), (short) Directions.getRotation());
         if (keycode == Input.Keys.SPACE)
-            player.makeNoise((short) 100);
+            player.actions.makeNoise((short) 100);
+        if (keycode == Input.Keys.H)
+            player.actions.overhears();
         return false;
     }
 
@@ -29,6 +31,8 @@ public class PlayerDesktopController implements InputProcessor, PlayerController
     public boolean keyUp(int keycode) {
         Directions.keyUp(keycode);
         player.actions.move(Directions.getVelocity(), (short) Directions.getRotation());
+        if (keycode == Input.Keys.H)
+            player.actions.stopOverhears();
         return false;
     }
 
