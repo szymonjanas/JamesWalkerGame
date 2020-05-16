@@ -9,15 +9,12 @@ public final class calculations {
 
     private static final float multiplayer = (float) (Math.sqrt(2)/2);
 
-    public static short getOrientation(Position2 from, Position2 to){
-        short orientation;
-        double TWOPI = 6.2831853071795865;
-        double RAD2DEG = 57.2957795130823209;
-        // if (a1 = b1 and a2 = b2) throw an error
-        double theta = Math.atan2(to.getX() - from.getX(), from.getY() - to.getY());
-        if (theta < 0.0)
-            theta += TWOPI;
-        double exact_rotation = RAD2DEG * theta;
+
+    public static short getRotation(Position2 from, Position2 to){
+        double angle = Math.atan2(to.getX() - from.getX(), from.getY() - to.getY());
+        if (angle < 0.0)
+            angle += (2*Math.PI);
+        double exact_rotation = Math.toDegrees(angle);
         if (exact_rotation - 90 < 0) exact_rotation = 270 + exact_rotation;
         else exact_rotation -= 90;
 
