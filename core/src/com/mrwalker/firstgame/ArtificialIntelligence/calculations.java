@@ -21,15 +21,20 @@ public final class calculations {
         if (exact_rotation - 90 < 0) exact_rotation = 270 + exact_rotation;
         else exact_rotation -= 90;
 
+        return  generalizeRotation((short) exact_rotation);
+    }
+
+    public static short generalizeRotation(short exact_rotation){
         short rotation = -1;
-             if (exact_rotation > 22  && exact_rotation <= 67)  rotation = 45;
+        if (exact_rotation > 22  && exact_rotation <= 67)  rotation = 45;
         else if (exact_rotation > 67  && exact_rotation <= 112) rotation = 90;
         else if (exact_rotation > 112 && exact_rotation <= 157) rotation = 135;
         else if (exact_rotation > 157 && exact_rotation <= 202) rotation = 180;
         else if (exact_rotation > 202 && exact_rotation <= 247) rotation = 225;
         else if (exact_rotation > 247 && exact_rotation <= 292) rotation = 270;
         else if (exact_rotation > 292 && exact_rotation <= 338) rotation = 315;
-        else if (exact_rotation > 338 || exact_rotation <= 22)  rotation = 0;
+        else if ((exact_rotation > 338 && exact_rotation <= 360) ||
+                (exact_rotation <= 22 && exact_rotation >= 0))   rotation = 0;
 
         if (rotation < 0) Gdx.app.error(TAG, "Wrong rotation calculated!");
 
@@ -57,4 +62,5 @@ public final class calculations {
         float distance = (float) (Math.pow(to.getX() - from.getX(), 2) + Math.pow(to.getY() - from.getY(), 2));
         return (float) Math.sqrt(distance);
     }
+
 }
