@@ -1,13 +1,12 @@
 package com.mrwalker.firstgame.ArtificialIntelligence;
 
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.mrwalker.firstgame.Entity.Parts.Entity;
 import com.mrwalker.firstgame.auxiliary.Position2;
 
 public class aiEntity extends Thread{
 
     protected final Entity entity;
+    protected final aiObstacleAvoidance aiObstacleAvoidance;
 
     private Entity aim = null;
     private Position2 aimPosition = null;
@@ -15,22 +14,23 @@ public class aiEntity extends Thread{
 
     public aiEntity(Entity entity) {
         this.entity = entity;
+        this.aiObstacleAvoidance = new aiObstacleAvoidance(entity);
         this.start();
     }
     public void run(){
         while (true){
             try {
-                sleep(50);
+                sleep(20);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             if (aim != null){
                 this.distance = calculations.getDistance(entity.getPosition(), aim.getPosition());
-                System.out.println(this.distance);
-                if (distance > 20){
+                if (distance > 40){ // distance between entities
                     entity.actions.startMovement();
-                    short rotation = calculations.getOrientation(entity.getPosition(), aim.getPosition());
-                    entity.actions.move(calculations.getForce(rotation), rotation);
+                    aiObstacleAvoidance.bypassingAnObstacle(entity.getPosition(), aim.getPosition());
+//                    short rotation = calculations.getRotation(entity.getPosition(), aim.getPosition());
+//                    entity.actions.move(calculations.getForce(rotation), rotation);
                 } else {
                     entity.actions.stopMovement();
                 }
