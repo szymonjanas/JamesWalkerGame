@@ -32,36 +32,37 @@ public class EntityBody {
 
         // BODY
 
-        FixtureDef bodyFixtureDef = new FixtureDef();
-        bodyFixtureDef.shape = bodyCircleShape;
+        createFixture(config, false);
 
-        bodyFixtureDef.restitution = config.restitution;
-        bodyFixtureDef.friction = config.friction;
-        bodyFixtureDef.density = config.density;
+        // NOISE
 
-        Fixture bodyFixture = body.createFixture(bodyFixtureDef);
-        bodyCircleShape.dispose();
+        createFixture(config, true);
 
         // SENSOR
 
-        CircleShape sensorCircleShape = new CircleShape();
-        sensorCircleShape.setRadius(config.radius + 10f); //set example radius
+        createFixture(config, true);
+
+
+        body.setFixedRotation(true);
+
+        body.setUserData(this.state.getID());
+    }
+
+    private void createFixture(@NotNull EntityBodyConfig config, boolean isSensor){
+
+        CircleShape fixtureDef = new CircleShape();
+        fixtureDef.setRadius(config.radius);
 
         FixtureDef sensorFixtureDef = new FixtureDef();
-        sensorFixtureDef.shape = sensorCircleShape;
-        sensorFixtureDef.isSensor = true;
+        sensorFixtureDef.shape = fixtureDef;
+        sensorFixtureDef.isSensor = isSensor;
 
         sensorFixtureDef.restitution = config.restitution;
         sensorFixtureDef.friction = config.friction;
         sensorFixtureDef.density = config.density;
 
         Fixture sensorFixture = body.createFixture(sensorFixtureDef);
-//        sensorCircleShape.dispose();
-
-
-        body.setFixedRotation(true);
-
-        body.setUserData(this.state.getID());
+        fixtureDef.dispose();
     }
 
     public void move(Vector2 force){
@@ -80,6 +81,7 @@ public class EntityBody {
          */
         state.getEnvEffect().setRealSpeed(body.getLinearVelocity());
         body.getFixtureList().get(1).getShape().setRadius(state.getEnvEffect().getNoise());
+        body.getFixtureList().get(2).getShape().setRadius(state.getEnvEffect().getEarshot());
         state.getLocation().setPosition(new Position2(body.getPosition()));
         if (!body.getLinearVelocity().equals(bodyVelocity)){
             clearVelocity();
