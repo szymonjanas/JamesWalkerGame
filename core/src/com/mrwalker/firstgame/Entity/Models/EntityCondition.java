@@ -22,8 +22,8 @@ public class EntityCondition {
 
     public Vector2 calculateRunForce(Vector2 direction){
         return new Vector2(
-                direction.x * speed * Settings.velocity,
-                direction.y * speed * Settings.velocity
+                direction.x * speed,
+                direction.y * speeds
         );
     }
 
