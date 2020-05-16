@@ -12,9 +12,27 @@ public class Rotation {
     }
 
     public void setValue(short value) {
-        if (value > 359) this.value = (short) (value - 360);
-        else if (value < 0) this.value = (short) (360 + value);
-        else this.value = value;
+        this.value = calculateValue(value);
+    }
+
+    private static short calculateValue(short value) {
+        short temp = -1;
+        if (value > 359) temp = (short) (value - 360);
+        else if (value < 0) temp = (short) (360 + value);
+        else temp = value;
+        return temp;
+    }
+
+    public short add(short value){
+        return calculateValue((short) (this.getValue()+value));
+    }
+
+    public short subtract(short value){
+        return calculateValue((short) (this.getValue()-value));
+    }
+
+    public static short opposite(short value){
+        return calculateValue((short) (value + 180));
     }
 
     public boolean equals(Rotation rotation){
