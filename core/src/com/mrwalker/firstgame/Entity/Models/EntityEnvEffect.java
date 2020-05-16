@@ -12,6 +12,8 @@ public class EntityEnvEffect {
     private short noise = 0;  //representation of noise in circle radius
     private float noiseMultiplayer = 0.5f;
 
+    private short earshot = 100;
+
     private long periodMillis = 0;
     private long startTime = 0;
 
@@ -53,5 +55,17 @@ public class EntityEnvEffect {
 
     public void setNoiseMultiplayer(float noiseMultiplayer) {
         this.noiseMultiplayer = noiseMultiplayer;
+    }
+
+    public short getEarshot() {
+        return earshot;
+    }
+
+    public void setEarshot(short earshot) {
+        this.earshot = earshot;
+    }
+
+    public void setDefaultEarshot(){
+        this.earshot = 100;
     }
 }
