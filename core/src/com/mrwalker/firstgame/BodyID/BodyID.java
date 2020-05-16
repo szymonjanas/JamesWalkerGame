@@ -14,10 +14,12 @@ public class BodyID {
 
     protected static final short idMaxSize = 32766;
     private final short ID;
+    private final boolean isPlayer;
 
-    public BodyID(BodyType type, short id) {
+    public BodyID(BodyType type, short id, boolean isPlayer) {
         this.type = type;
         ID = id;
+        this.isPlayer = isPlayer;
     }
 
     public BodyType getType() {
@@ -33,7 +35,7 @@ public class BodyID {
                 (bodyID.getType() == this.getType());
     }
 
-    public static BodyID createBodyID(BodyType type){
+    public static BodyID createBodyID(BodyType type, boolean isPlayer){
         short range;
         short correction;
         switch (type){
@@ -50,7 +52,7 @@ public class BodyID {
                 correction = 0;
         }
 
-        BodyID body = new BodyID( type, createID(range, correction));
+        BodyID body = new BodyID( type, createID(range, correction), isPlayer);
         addBody(body);
         return body;
     }
@@ -84,4 +86,7 @@ public class BodyID {
             ids.add(bodyID);
     }
 
+    public boolean isPlayer() {
+        return isPlayer;
+    }
 }

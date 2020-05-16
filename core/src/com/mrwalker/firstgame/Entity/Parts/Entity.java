@@ -26,6 +26,10 @@ public class Entity {
         actions = new EntityActions(this);
     }
 
+    public boolean isPlayer(){
+        return state.getID().isPlayer();
+    }
+
     public Position2 getPosition(){
         return state.getLocation().getPosition();
     }
