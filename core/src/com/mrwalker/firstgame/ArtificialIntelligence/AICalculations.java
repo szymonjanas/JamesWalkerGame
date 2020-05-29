@@ -4,8 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.mrwalker.firstgame.auxiliary.Position2;
 
-public final class AIcalculations {
-    private static final String TAG = AIcalculations.class.getSimpleName();
+public final class AICalculations {
+    private static final String TAG = AICalculations.class.getSimpleName();
 
     private static final float multiplayer = (float) (Math.sqrt(2)/2);
 
