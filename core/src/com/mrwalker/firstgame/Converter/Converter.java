@@ -6,7 +6,7 @@ import com.mrwalker.firstgame.Config.Settings;
 import com.mrwalker.firstgame.auxiliary.Position2;
 import com.mrwalker.firstgame.auxiliary.Size2;
 
-public class Converter {
+public final class Converter {
     private static final String TAG = Converter.class.getSimpleName();
 
     private static final int tileWidth = Settings.tileWidth, tileHeight = Settings.tileHeight;
@@ -15,8 +15,6 @@ public class Converter {
     public static void setMapIsometricSize(Size2 isometricSize){
         sizeIsometricMap = isometricSize;
     }
-
-
 
     public static Position2 cartesianToIsometric(Position2 position){
         Vector2 point = new Vector2(position.getX(), position.getY());
