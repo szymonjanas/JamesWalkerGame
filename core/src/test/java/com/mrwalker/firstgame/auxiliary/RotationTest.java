@@ -46,4 +46,23 @@ class RotationTest {
         assertEquals(rotation.subtract((short) -190), (short) 10);
     }
 
+    @Test
+    public void opposite(){
+        assertEquals(Rotation.opposite((short) 135), (short) 315);
+        assertEquals(Rotation.opposite((short) 180), (short) 0);
+        assertEquals(Rotation.opposite((short) 240), (short) 60);
+        assertEquals(Rotation.opposite((short) 30), (short) 210);
+    }
+
+    @Test
+    public void equals(){
+        Rotation rotation = new Rotation((short) 135);
+        assertTrue(rotation.equals((short) 135));
+        Rotation rotation2 = new Rotation((short) 135);
+        assertTrue(rotation2.equals(rotation));
+        Rotation rotation3 = new Rotation((short) 145);
+        assertFalse(rotation3.equals(rotation2));
+        assertFalse(rotation3.equals((short) 155));
+    }
+
 }
