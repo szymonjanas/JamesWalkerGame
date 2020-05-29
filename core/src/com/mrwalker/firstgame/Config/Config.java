@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 
-public class Config {
+public final class Config {
     private static final String TAG = Config.class.getSimpleName();
 
     private static Json json = new Json();
