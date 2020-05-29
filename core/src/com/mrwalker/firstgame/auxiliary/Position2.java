@@ -82,4 +82,15 @@ public class Position2 {
     public Vector2 toVector2(){
         return new Vector2(getX(), getY());
     }
+
+    public boolean equals(Position2 position){
+        return (getX() == position.getX()) &&
+                (getY() == position.getY());
+    }
+
+    public boolean equals(Position2 position, float tolerance){
+        return (Math.abs(getX() - position.getX()) < tolerance) &&
+                (Math.abs(getY() - position.getY()) < tolerance);
+    }
+
 }
