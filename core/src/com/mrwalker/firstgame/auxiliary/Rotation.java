@@ -7,6 +7,8 @@ public class Rotation {
         this.setValue(value);
     }
 
+    public Rotation(){}
+
     public short getValue() {
         return value;
     }
@@ -24,11 +26,13 @@ public class Rotation {
     }
 
     public short add(short value){
-        return calculateValue((short) (this.getValue()+value));
+        setValue((short) (this.getValue() +  value));
+        return getValue();
     }
 
     public short subtract(short value){
-        return calculateValue((short) (this.getValue()-value));
+        setValue((short) (this.getValue()-value));
+        return getValue();
     }
 
     public static short opposite(short value){
